@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/s4hana" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="optional" default="UTC" name="timeZone">
+            <xs:annotation>
+              <xs:documentation>The timezone with which the Date objects returned from S/4Hana will be converted.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="encoding"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="basic-authentication-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="unlisted-services">
+              <xs:annotation>
+                <xs:documentation>List of services which will be added to the list of discovered services Please note: If 'Service directory' parameter is not specified then the HTTP directory needs to be prepended before every service name in this list, in the following format - {directory}/{service-name}.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="unlisted-service">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-headers">
+              <xs:annotation>
+                <xs:documentation>Default HTTP headers the message should include.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" minOccurs="0" maxOccurs="unbounded" ref="s4hana:abstract-default-header"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-query-params">
+              <xs:annotation>
+                <xs:documentation>Default Query parameters the request should include.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" minOccurs="0" maxOccurs="unbounded" ref="s4hana:abstract-default-query-param"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+              <xs:annotation>
+                <xs:documentation>Proxy configuration for the connector.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" base="s4hana:com.mulesoft.connector.sap.s4hana.api.group.ProxyConfiguration"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="baseUrl">
+            <xs:annotation>
+              <xs:documentation>The base URL of the service on SAP S/4HANA to be accessed from the connector. From this base URL all other endpoints derive.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="username">
+            <xs:annotation>
+              <xs:documentation>The account username with which to log into SAP S/4HANA.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="password">
+            <xs:annotation>
+              <xs:documentation>The account password with which to log into SAP S/4HANA.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="discoveryEnabled"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" default="sap/opu/odata/IWFND/CATALOGSERVICE;v=0002/ServiceCollection" name="serviceDiscoveryPath">
+            <xs:annotation>
+              <xs:documentation>URL which will be used for automatic services discovery</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="serviceDirectory">
+            <xs:annotation>
+              <xs:documentation>Common HTTP directory for all SAP services. It is possible to leave this parameter blank and specify the HTTP directory individually for every service in the unlisted services list.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="unlistedServices">
+            <xs:annotation>
+              <xs:documentation>List of services which will be added to the list of discovered services Please note: If 'Service directory' parameter is not specified then the HTTP directory needs to be prepended before every service name in this list, in the following format - {directory}/{service-name}.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="defaultHeaders">
+            <xs:annotation>
+              <xs:documentation>Default HTTP headers the message should include.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="defaultQueryParams">
+            <xs:annotation>
+              <xs:documentation>Default Query parameters the request should include.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="proxyConfig">
+            <xs:annotation>
+              <xs:documentation>Proxy configuration for the connector.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connector.sap.s4hana.api.RequestHeader">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="key"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" type="s4hana:com.mulesoft.connector.sap.s4hana.api.RequestHeader" abstract="true" name="abstract-default-header"></xs:element>
+  <xs:element xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" substitutionGroup="s4hana:abstract-default-header" name="default-header">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="s4hana:com.mulesoft.connector.sap.s4hana.api.RequestHeader"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connector.sap.s4hana.api.QueryParam">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="key"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" type="s4hana:com.mulesoft.connector.sap.s4hana.api.QueryParam" abstract="true" name="abstract-default-query-param"></xs:element>
+  <xs:element xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" substitutionGroup="s4hana:abstract-default-query-param" name="default-query-param">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="s4hana:com.mulesoft.connector.sap.s4hana.api.QueryParam"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connector.sap.s4hana.api.group.ProxyConfiguration">
+    <xs:annotation>
+      <xs:documentation>Proxy configuration for the connector.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="non-proxy-hosts">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="non-proxy-host">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="host"></xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="required" name="port"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="password"></xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="nonProxyHosts"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="ntlmDomain"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="oauth2-client-credentials-authentication-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="unlisted-services">
+              <xs:annotation>
+                <xs:documentation>List of services which will be added to the list of discovered services Please note: If 'Service directory' parameter is not specified then the HTTP directory needs to be prepended before every service name in this list, in the following format - {directory}/{service-name}.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="unbounded" name="unlisted-service">
+                    <xs:complexType>
+                      <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-headers">
+              <xs:annotation>
+                <xs:documentation>Default HTTP headers the message should include.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" minOccurs="0" maxOccurs="unbounded" ref="s4hana:abstract-default-header"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-query-params">
+              <xs:annotation>
+                <xs:documentation>Default Query parameters the request should include.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" minOccurs="0" maxOccurs="unbounded" ref="s4hana:abstract-default-query-param"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+              <xs:annotation>
+                <xs:documentation>Proxy configuration for the connector.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" base="s4hana:com.mulesoft.connector.sap.s4hana.api.group.ProxyConfiguration"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="oauth-client-credentials">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="xs:string" use="required" name="clientId">
+                      <xs:annotation>
+                        <xs:documentation>The OAuth client id as registered with the service provider</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="required" name="clientSecret">
+                      <xs:annotation>
+                        <xs:documentation>The OAuth client secret as registered with the service provider</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" default="https://{host-name}/{oauth-service}/{generate-token-resource}" name="tokenUrl">
+                      <xs:annotation>
+                        <xs:documentation>The service provider's token endpoint URL</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="xs:string" use="optional" name="scopes">
+                      <xs:annotation>
+                        <xs:documentation>The OAuth scopes to be requested during the dance. If not provided, it will default to those in the annotation</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="oauth-store-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="xs:string" use="optional" name="objectStore">
+                      <xs:annotation>
+                        <xs:documentation>A reference to the object store that should be used to store each resource owner id's data. If not specified, runtime will automatically provision the default one.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="baseUrl">
+            <xs:annotation>
+              <xs:documentation>The base URL of the service on SAP S/4HANA to be accessed from the connector. From this base URL all other endpoints derive.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="discoveryEnabled"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" default="sap/opu/odata/IWFND/CATALOGSERVICE;v=0002/ServiceCollection" name="serviceDiscoveryPath">
+            <xs:annotation>
+              <xs:documentation>URL which will be used for automatic services discovery</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="serviceDirectory">
+            <xs:annotation>
+              <xs:documentation>Common HTTP directory for all SAP services. It is possible to leave this parameter blank and specify the HTTP directory individually for every service in the unlisted services list.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="unlistedServices">
+            <xs:annotation>
+              <xs:documentation>List of services which will be added to the list of discovered services Please note: If 'Service directory' parameter is not specified then the HTTP directory needs to be prepended before every service name in this list, in the following format - {directory}/{service-name}.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="defaultHeaders">
+            <xs:annotation>
+              <xs:documentation>Default HTTP headers the message should include.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="defaultQueryParams">
+            <xs:annotation>
+              <xs:documentation>Default Query parameters the request should include.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="proxyConfig">
+            <xs:annotation>
+              <xs:documentation>Proxy configuration for the connector.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/s4hana" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CreateEntityType" substitutionGroup="mule:abstract-operator" name="create-entity">
+    <xs:annotation>
+      <xs:documentation>Executes a create operation within the connected SAP S/4HANA instance. This is a dynamic operation, returning whatever the OData specification states that will be returned by the operation.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CreateEntityType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="entity">
+            <xs:annotation>
+              <xs:documentation>The entity to be affected in the SAP S/4HANA instance. This entity must be of the type defined in the type parameter.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-headers">
+            <xs:annotation>
+              <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-header">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-query-params">
+            <xs:annotation>
+              <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-query-param">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="service">
+          <xs:annotation>
+            <xs:documentation>The type of service. This is defined from the services available in the SAP S/4HANA instance.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="entityType">
+          <xs:annotation>
+            <xs:documentation>The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customHeaders">
+          <xs:annotation>
+            <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customQueryParams">
+          <xs:annotation>
+            <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/s4hana" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DeleteEntityType" substitutionGroup="mule:abstract-operator" name="delete-entity">
+    <xs:annotation>
+      <xs:documentation>Executes a delete operation within the connected SAP S/4HANA instance.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteEntityType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="key">
+            <xs:annotation>
+              <xs:documentation>The object that identifies the entity sought. This may be an object as of itself. This is defined from the type of entity selected.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-headers">
+            <xs:annotation>
+              <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-header">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-query-params">
+            <xs:annotation>
+              <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-query-param">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="service">
+          <xs:annotation>
+            <xs:documentation>The type of service. This is defined from the services available in the SAP S/4HANA instance.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="entityType">
+          <xs:annotation>
+            <xs:documentation>The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customHeaders">
+          <xs:annotation>
+            <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customQueryParams">
+          <xs:annotation>
+            <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/s4hana" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ExecuteFunctionType" substitutionGroup="mule:abstract-operator" name="execute-function">
+    <xs:annotation>
+      <xs:documentation>Executes an OData defined function in the SAP S/4HANA instance.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ExecuteFunctionType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="parameters">
+            <xs:annotation>
+              <xs:documentation>The parameters of the function wrapped into a single object.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-headers">
+            <xs:annotation>
+              <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-header">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-query-params">
+            <xs:annotation>
+              <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-query-param">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="service">
+          <xs:annotation>
+            <xs:documentation>The type of service. This is defined from the services available in the SAP S/4HANA instance.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="function">
+          <xs:annotation>
+            <xs:documentation>The name of the function to execute.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customHeaders">
+          <xs:annotation>
+            <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customQueryParams">
+          <xs:annotation>
+            <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/s4hana" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetEntityType" substitutionGroup="mule:abstract-operator" name="get-entity">
+    <xs:annotation>
+      <xs:documentation>Executes a retrieve operation on the SAP S/4HANA instance filtering the result by key. If no elements are found an error is thrown.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetEntityType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="key">
+            <xs:annotation>
+              <xs:documentation>The object that identifies the entity sought. This may be an object as of itself. This is defined from the type of entity selected.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-headers">
+            <xs:annotation>
+              <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-header">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-query-params">
+            <xs:annotation>
+              <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-query-param">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="service">
+          <xs:annotation>
+            <xs:documentation>The type of service. This is defined from the services available in the SAP S/4HANA instance.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="entityType">
+          <xs:annotation>
+            <xs:documentation>The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="select">
+          <xs:annotation>
+            <xs:documentation>Comma-separated list of selection clauses. Each selection clause may be a Property name, Navigation Property name, or the "*" character. The "*" syntax causes all Properties on an Entry to be included without traversing associations. Use forward slash "/" to select fields of expanded navigation properties. If no field is selected, then all fields are returned.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="expand">
+          <xs:annotation>
+            <xs:documentation>Comma-separated list of Navigation Properties. Additionally each Navigation Property can be followed by a forward slash and another Navigation Property to enable identifying a multi-level relationship. Properties of expanded navigation property will not be part of the payload unless selected.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customHeaders">
+          <xs:annotation>
+            <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customQueryParams">
+          <xs:annotation>
+            <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/s4hana" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="QueryType" substitutionGroup="mule:abstract-operator" name="query">
+    <xs:annotation>
+      <xs:documentation>Executes a retrieve operation on the SAP S/4HANA instance filtering the results by the parameters defined. If no filter is added, then all results will be listed. This is a paginated operation.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="QueryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-object-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-headers">
+            <xs:annotation>
+              <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-header">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-query-params">
+            <xs:annotation>
+              <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-query-param">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="service">
+          <xs:annotation>
+            <xs:documentation>The type of service. This is defined from the services available in the SAP S/4HANA instance.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="entityType">
+          <xs:annotation>
+            <xs:documentation>The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="select">
+          <xs:annotation>
+            <xs:documentation>Comma-separated list of selection clauses. Each selection clause may be a Property name, Navigation Property name, or the "*" character. The "*" syntax causes all Properties on an Entry to be included without traversing associations. Use forward slash "/" to select fields of expanded navigation properties. If no field is selected, then all fields are returned.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="expand">
+          <xs:annotation>
+            <xs:documentation>Comma-separated list of Navigation Properties. Additionally each Navigation Property can be followed by a forward slash and another Navigation Property to enable identifying a multi-level relationship. Properties of expanded navigation property will not be part of the payload unless selected.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="filter">
+          <xs:annotation>
+            <xs:documentation>The condition to filter the resulting list of entities.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="orderBy">
+          <xs:annotation>
+            <xs:documentation>Allows to request information in either ascending or descending order by using the ?asc? or ?desc? suffixes. If asc or desc not specified, then the resources will be ordered in ascending order.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="100" name="pageSize">
+          <xs:annotation>
+            <xs:documentation>The size of the pages retrieved by the query.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="top">
+          <xs:annotation>
+            <xs:documentation>Limits the amount of records to be retrieved by this query.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" default="0" name="skip">
+          <xs:annotation>
+            <xs:documentation>The amount of records to skip before starting returning results.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customHeaders">
+          <xs:annotation>
+            <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customQueryParams">
+          <xs:annotation>
+            <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/s4hana" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="UnauthorizeType" substitutionGroup="mule:abstract-operator" name="unauthorize">
+    <xs:annotation>
+      <xs:documentation>Deletes all the access token information of a given resource owner id so that it's impossible to execute any operation for that user without doing the authorization dance again</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UnauthorizeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/s4hana" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="UpdateEntityType" substitutionGroup="mule:abstract-operator" name="update-entity">
+    <xs:annotation>
+      <xs:documentation>Executes an update operation within the connected SAP S/4HANA instance. This operation will work through PATCH requests. This means that any fields that are missing will not be updated.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateEntityType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="entity">
+            <xs:annotation>
+              <xs:documentation>The entity to be affected in the SAP S/4HANA instance. This entity must be of the type defined in the type parameter.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-headers">
+            <xs:annotation>
+              <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-header">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="custom-query-params">
+            <xs:annotation>
+              <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="custom-query-param">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="service">
+          <xs:annotation>
+            <xs:documentation>The type of service. This is defined from the services available in the SAP S/4HANA instance.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="entityType">
+          <xs:annotation>
+            <xs:documentation>The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customHeaders">
+          <xs:annotation>
+            <xs:documentation>Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionMap" use="optional" name="customQueryParams">
+          <xs:annotation>
+            <xs:documentation>Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

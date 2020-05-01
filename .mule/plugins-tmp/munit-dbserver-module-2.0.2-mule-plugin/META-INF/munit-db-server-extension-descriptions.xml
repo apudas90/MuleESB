@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="config">
+            <description><![CDATA[Default configuration]]></description>
+            <parameters>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections>
+        <connection name="connection">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="database">
+                    <description><![CDATA[<p> H2 Database name </p>]]></description>
+                </parameter>
+                <parameter name="sqlFile">
+                    <description><![CDATA[<p> Name of (or path to) the SQL file whose statements will be executed when the database is started </p>]]></description>
+                </parameter>
+                <parameter name="csv">
+                    <description><![CDATA[<p> CSV files (separated by semicolon) that creates tables in the database using the file name (without the termination, ".csv") as the table name and its columns as the table columns </p>]]></description>
+                </parameter>
+                <parameter name="connectionStringParameters">
+                    <description><![CDATA[<p> Connection parameters (keyword - value pairs separated by semicolon) that specify the database configuration. Example: Key1=Value1;Key2=Value2 </p>]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="connection">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="database">
+                    <description><![CDATA[<p> H2 Database name </p>]]></description>
+                </parameter>
+                <parameter name="sqlFile">
+                    <description><![CDATA[<p> Name of (or path to) the SQL file whose statements will be executed when the database is started </p>]]></description>
+                </parameter>
+                <parameter name="csv">
+                    <description><![CDATA[<p> CSV files (separated by semicolon) that creates tables in the database using the file name (without the termination, ".csv") as the table name and its columns as the table columns </p>]]></description>
+                </parameter>
+                <parameter name="connectionStringParameters">
+                    <description><![CDATA[<p> Connection parameters (keyword - value pairs separated by semicolon) that specify the database configuration. Example: Key1=Value1;Key2=Value2 </p>]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+    </connections>
+    <extension name="MUnit DB Server">
+        <description><![CDATA[<p> Module to test database connections </p>]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="execute">
+            <description><![CDATA[<p> Executes the SQL query received as parameter </p> <p/> ../../../doc/DBServer-connector.xml.sample dbserver:execute]]></description>
+            <parameters>
+                <parameter name="sql">
+                    <description><![CDATA[query to be executed]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="executeQuery">
+            <description><![CDATA[<p> Executes a SQL query </p> <p/> ../../../doc/DBServer-connector.xml.sample dbserver:executeQuery]]></description>
+            <parameters>
+                <parameter name="sql">
+                    <description><![CDATA[query to be executed]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="validateThat">
+            <description><![CDATA[<p> Executes a SQL query </p> <p/> ../../../doc/DBServer-connector.xml.sample dbserver:validateThat]]></description>
+            <parameters>
+                <parameter name="query">
+                    <description><![CDATA[query to be executed]]></description>
+                </parameter>
+                <parameter name="returns">
+                    <description><![CDATA[Expected value]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources/>
+    <types/>
+</extension-documentation>

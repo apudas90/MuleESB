@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7bc14667-9ffc-4293-9257-b2ddbfca1c0d" >
+		<http:listener-connection host="localhost" port="8085" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="ac3271c8-7bc7-4c51-9971-c8dc3b710c69" >
+		<db:my-sql-connection host="congo.c3w6upfzlwwe.us-west-1.rds.amazonaws.com" port="3306" user="mulesoft" password="mulesoft" database="congo" />
+	</db:config>
+	<flow name="getcontactsdataFlow" doc:id="bb171a50-7747-49cb-b1a9-6572973a66ce" >
+		<http:listener doc:name="Listener" doc:id="915a4681-d4f7-42bd-a626-d28aea3432e1" config-ref="HTTP_Listener_config" path="/getContact"/>
+		<set-variable value="#[attributes.headers.'Name']" doc:name="Set Variable" doc:id="a882cfa9-d00d-4501-95ac-d5be5c6b85c4" variableName="headerQuery"/>
+		<db:select doc:name="Select" doc:id="16e534d4-5755-4f0e-a99a-98207d67141f" config-ref="Database_Config">
+			<db:sql >SELECT * from contacts WHERE FirstName = :fn</db:sql>
+			<db:input-parameters ><![CDATA[#[{'fn': vars.headerQuery}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="601db4a7-416c-42bf-844a-f7fc9596480b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Contact : payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="396062e5-e69a-4335-b5c2-22019bdf7707" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+	Contacts: payload
+	
+	}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="feb0871c-9a2f-4c7f-89bf-5a91ad3e3c39" message="Data fetched successfully"/>
+	</flow>
+</mule>

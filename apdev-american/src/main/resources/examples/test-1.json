@@ -1,0 +1,13 @@
+{
+	"ID": 1,
+	"plane": 	{
+		"type": "Boeing 737",
+		"totalSeats": 150
+	},
+	"price": 400,
+	"emptySeats": 100,
+	"code": "ER38sd",
+	"origin": "MUA",
+	"destination": "SFA",
+	"departureDate": "2020-02-09"
+}

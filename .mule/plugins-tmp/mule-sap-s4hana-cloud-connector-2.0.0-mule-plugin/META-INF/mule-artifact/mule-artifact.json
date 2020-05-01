@@ -1,0 +1,33 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "java",
+    "attributes": {
+      "type": "com.mulesoft.connector.sap.s4hana.internal.extension.S4HanaConnector",
+      "version": "2.0.0"
+    }
+  },
+  "license": {
+    "requiredEntitlement": "sap-s4hana-connector",
+    "provider": "Mulesoft",
+    "allowsEvaluation": true
+  },
+  "name": "SAP S 4HANA",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "com.mulesoft.connector.sap.s4hana.api.group",
+        "com.mulesoft.connector.sap.s4hana.api"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.2.1"
+}

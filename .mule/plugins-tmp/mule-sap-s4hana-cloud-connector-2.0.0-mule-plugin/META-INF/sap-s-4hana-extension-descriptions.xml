@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="config">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="timeZone">
+                    <description><![CDATA[The timezone with which the Date objects returned from S/4Hana will be converted.]]></description>
+                </parameter>
+                <parameter name="encoding">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="name">
+                    <description><![CDATA[The identifier of this element used to reference it in other components]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections>
+        <connection name="basic-authentication">
+            <description><![CDATA[Basic Authentication is the simplest way of enforcing access controls because it does not require cookies, session identifiers, or login pages. Instead, it uses standard fields in the HTTP header, removing the need for handshakes. This mechanism provides no confidentiality protection for the transmitted credentials. They are merely encoded with Base64 in transit, but not encrypted or hashed in any way.]]></description>
+            <parameters>
+                <parameter name="baseUrl">
+                    <description><![CDATA[The base URL of the service on SAP S/4HANA to be accessed from the connector. From this base URL all other endpoints derive.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[The account username with which to log into SAP S/4HANA.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The account password with which to log into SAP S/4HANA.]]></description>
+                </parameter>
+                <parameter name="discoveryEnabled">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="serviceDiscoveryPath">
+                    <description><![CDATA[URL which will be used for automatic services discovery]]></description>
+                </parameter>
+                <parameter name="serviceDirectory">
+                    <description><![CDATA[Common HTTP directory for all SAP services. It is possible to leave this parameter blank and specify the HTTP directory individually for every service in the unlisted services list.]]></description>
+                </parameter>
+                <parameter name="unlistedServices">
+                    <description><![CDATA[List of services which will be added to the list of discovered services Please note: If 'Service directory' parameter is not specified then the HTTP directory needs to be prepended before every service name in this list, in the following format - {directory}/{service-name}.]]></description>
+                </parameter>
+                <parameter name="defaultHeaders">
+                    <description><![CDATA[Default HTTP headers the message should include.]]></description>
+                </parameter>
+                <parameter name="defaultQueryParams">
+                    <description><![CDATA[Default Query parameters the request should include.]]></description>
+                </parameter>
+                <parameter name="tlsContext">
+                    <description><![CDATA[Protocol to use for communication. Valid values are HTTP and HTTPS. Default value is HTTP. When using HTTPS the HTTP communication is going to be secured using TLS / SSL. If HTTPS was configured as protocol then the user needs to configure at least the keystore in the tls:context child element of this listener-config.]]></description>
+                </parameter>
+                <parameter name="proxyConfig">
+                    <description><![CDATA[Proxy configuration for the connector.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="oauth2-client-credentials-authentication">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="baseUrl">
+                    <description><![CDATA[The base URL of the service on SAP S/4HANA to be accessed from the connector. From this base URL all other endpoints derive.]]></description>
+                </parameter>
+                <parameter name="discoveryEnabled">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="serviceDiscoveryPath">
+                    <description><![CDATA[URL which will be used for automatic services discovery]]></description>
+                </parameter>
+                <parameter name="serviceDirectory">
+                    <description><![CDATA[Common HTTP directory for all SAP services. It is possible to leave this parameter blank and specify the HTTP directory individually for every service in the unlisted services list.]]></description>
+                </parameter>
+                <parameter name="unlistedServices">
+                    <description><![CDATA[List of services which will be added to the list of discovered services Please note: If 'Service directory' parameter is not specified then the HTTP directory needs to be prepended before every service name in this list, in the following format - {directory}/{service-name}.]]></description>
+                </parameter>
+                <parameter name="defaultHeaders">
+                    <description><![CDATA[Default HTTP headers the message should include.]]></description>
+                </parameter>
+                <parameter name="defaultQueryParams">
+                    <description><![CDATA[Default Query parameters the request should include.]]></description>
+                </parameter>
+                <parameter name="tlsContext">
+                    <description><![CDATA[Protocol to use for communication. Valid values are HTTP and HTTPS. Default value is HTTP. When using HTTPS the HTTP communication is going to be secured using TLS / SSL. If HTTPS was configured as protocol then the user needs to configure at least the keystore in the tls:context child element of this listener-config.]]></description>
+                </parameter>
+                <parameter name="proxyConfig">
+                    <description><![CDATA[Proxy configuration for the connector.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+                <parameter name="clientId">
+                    <description><![CDATA[The OAuth client id as registered with the service provider]]></description>
+                </parameter>
+                <parameter name="clientSecret">
+                    <description><![CDATA[The OAuth client secret as registered with the service provider]]></description>
+                </parameter>
+                <parameter name="tokenUrl">
+                    <description><![CDATA[The service provider's token endpoint URL]]></description>
+                </parameter>
+                <parameter name="scopes">
+                    <description><![CDATA[The OAuth scopes to be requested during the dance. If not provided, it will default to those in the annotation]]></description>
+                </parameter>
+                <parameter name="objectStore">
+                    <description><![CDATA[A reference to the object store that should be used to store each resource owner id's data. If not specified, runtime will automatically provision the default one.]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+    </connections>
+    <extension name="SAP S 4HANA">
+        <description><![CDATA[]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="createEntity">
+            <description><![CDATA[Executes a create operation within the connected SAP S/4HANA instance. This is a dynamic operation, returning whatever the OData specification states that will be returned by the operation.]]></description>
+            <parameters>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="service">
+                    <description><![CDATA[The type of service. This is defined from the services available in the SAP S/4HANA instance.]]></description>
+                </parameter>
+                <parameter name="entityType">
+                    <description><![CDATA[The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.]]></description>
+                </parameter>
+                <parameter name="entity">
+                    <description><![CDATA[The entity to be affected in the SAP S/4HANA instance. This entity must be of the type defined in the type parameter.]]></description>
+                </parameter>
+                <parameter name="customHeaders">
+                    <description><![CDATA[Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="customQueryParams">
+                    <description><![CDATA[Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="deleteEntity">
+            <description><![CDATA[Executes a delete operation within the connected SAP S/4HANA instance.]]></description>
+            <parameters>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="service">
+                    <description><![CDATA[The type of service. This is defined from the services available in the SAP S/4HANA instance.]]></description>
+                </parameter>
+                <parameter name="entityType">
+                    <description><![CDATA[The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.]]></description>
+                </parameter>
+                <parameter name="key">
+                    <description><![CDATA[The object that identifies the entity sought. This may be an object as of itself. This is defined from the type of entity selected.]]></description>
+                </parameter>
+                <parameter name="customHeaders">
+                    <description><![CDATA[Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="customQueryParams">
+                    <description><![CDATA[Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="executeFunction">
+            <description><![CDATA[Executes an OData defined function in the SAP S/4HANA instance.]]></description>
+            <parameters>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="service">
+                    <description><![CDATA[The type of service. This is defined from the services available in the SAP S/4HANA instance.]]></description>
+                </parameter>
+                <parameter name="function">
+                    <description><![CDATA[The name of the function to execute.]]></description>
+                </parameter>
+                <parameter name="parameters">
+                    <description><![CDATA[The parameters of the function wrapped into a single object.]]></description>
+                </parameter>
+                <parameter name="customHeaders">
+                    <description><![CDATA[Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="customQueryParams">
+                    <description><![CDATA[Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="getEntity">
+            <description><![CDATA[Executes a retrieve operation on the SAP S/4HANA instance filtering the result by key. If no elements are found an error is thrown.]]></description>
+            <parameters>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="service">
+                    <description><![CDATA[The type of service. This is defined from the services available in the SAP S/4HANA instance.]]></description>
+                </parameter>
+                <parameter name="entityType">
+                    <description><![CDATA[The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.]]></description>
+                </parameter>
+                <parameter name="select">
+                    <description><![CDATA[Comma-separated list of selection clauses. Each selection clause may be a Property name, Navigation Property name, or the "*" character. The "*" syntax causes all Properties on an Entry to be included without traversing associations. Use forward slash "/" to select fields of expanded navigation properties. If no field is selected, then all fields are returned.]]></description>
+                </parameter>
+                <parameter name="expand">
+                    <description><![CDATA[Comma-separated list of Navigation Properties. Additionally each Navigation Property can be followed by a forward slash and another Navigation Property to enable identifying a multi-level relationship. Properties of expanded navigation property will not be part of the payload unless selected.]]></description>
+                </parameter>
+                <parameter name="key">
+                    <description><![CDATA[The object that identifies the entity sought. This may be an object as of itself. This is defined from the type of entity selected.]]></description>
+                </parameter>
+                <parameter name="customHeaders">
+                    <description><![CDATA[Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="customQueryParams">
+                    <description><![CDATA[Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="query">
+            <description><![CDATA[Executes a retrieve operation on the SAP S/4HANA instance filtering the results by the parameters defined. If no filter is added, then all results will be listed. This is a paginated operation.]]></description>
+            <parameters>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="service">
+                    <description><![CDATA[The type of service. This is defined from the services available in the SAP S/4HANA instance.]]></description>
+                </parameter>
+                <parameter name="entityType">
+                    <description><![CDATA[The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.]]></description>
+                </parameter>
+                <parameter name="select">
+                    <description><![CDATA[Comma-separated list of selection clauses. Each selection clause may be a Property name, Navigation Property name, or the "*" character. The "*" syntax causes all Properties on an Entry to be included without traversing associations. Use forward slash "/" to select fields of expanded navigation properties. If no field is selected, then all fields are returned.]]></description>
+                </parameter>
+                <parameter name="expand">
+                    <description><![CDATA[Comma-separated list of Navigation Properties. Additionally each Navigation Property can be followed by a forward slash and another Navigation Property to enable identifying a multi-level relationship. Properties of expanded navigation property will not be part of the payload unless selected.]]></description>
+                </parameter>
+                <parameter name="filter">
+                    <description><![CDATA[The condition to filter the resulting list of entities.]]></description>
+                </parameter>
+                <parameter name="orderBy">
+                    <description><![CDATA[Allows to request information in either ascending or descending order by using the ?asc? or ?desc? suffixes. If asc or desc not specified, then the resources will be ordered in ascending order.]]></description>
+                </parameter>
+                <parameter name="pageSize">
+                    <description><![CDATA[The size of the pages retrieved by the query.]]></description>
+                </parameter>
+                <parameter name="top">
+                    <description><![CDATA[Limits the amount of records to be retrieved by this query.]]></description>
+                </parameter>
+                <parameter name="skip">
+                    <description><![CDATA[The amount of records to skip before starting returning results.]]></description>
+                </parameter>
+                <parameter name="customHeaders">
+                    <description><![CDATA[Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="customQueryParams">
+                    <description><![CDATA[Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="unauthorize">
+            <description><![CDATA[Deletes all the access token information of a given resource owner id so that it's impossible to execute any operation for that user without doing the authorization dance again]]></description>
+            <parameters>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="updateEntity">
+            <description><![CDATA[Executes an update operation within the connected SAP S/4HANA instance. This operation will work through PATCH requests. This means that any fields that are missing will not be updated.]]></description>
+            <parameters>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="service">
+                    <description><![CDATA[The type of service. This is defined from the services available in the SAP S/4HANA instance.]]></description>
+                </parameter>
+                <parameter name="entityType">
+                    <description><![CDATA[The type of entity over which the operation is executed. This is defined from the types of entities available in the selected service.]]></description>
+                </parameter>
+                <parameter name="entity">
+                    <description><![CDATA[The entity to be affected in the SAP S/4HANA instance. This entity must be of the type defined in the type parameter.]]></description>
+                </parameter>
+                <parameter name="customHeaders">
+                    <description><![CDATA[Custom headers that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="customQueryParams">
+                    <description><![CDATA[Custom query parameters that the request will include. The ones specified here will overwrite the default ones specified in the config.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources/>
+    <types>
+        <type name="com.mulesoft.connector.sap.s4hana.api.QueryParam">
+            <description><![CDATA[Represents an HTTP Query Parameter.]]></description>
+            <parameters>
+                <parameter name="key">
+                    <description><![CDATA[The key]]></description>
+                </parameter>
+                <parameter name="value">
+                    <description><![CDATA[The value]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connector.sap.s4hana.api.RequestHeader">
+            <description><![CDATA[Represents an HTTP Header]]></description>
+            <parameters>
+                <parameter name="key">
+                    <description><![CDATA[The key]]></description>
+                </parameter>
+                <parameter name="value">
+                    <description><![CDATA[The value]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connector.sap.s4hana.api.ResponseAttributes">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="headers">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connector.sap.s4hana.api.group.ProxyConfiguration">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="host">
+                    <description><![CDATA[Host where the proxy requests will be sent.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port where the proxy requests will be sent.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[The username to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[The password to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="nonProxyHosts">
+                    <description><![CDATA[A list of hosts against which the proxy should not be used.]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

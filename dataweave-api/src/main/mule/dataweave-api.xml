@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d4f3b670-be13-4e65-8019-6a7dd9f6b042" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="dataweave-apiFlow" doc:id="eaf3450c-eb3b-463a-affe-b81f4d5bcfda" >
+		<http:listener doc:name="Listener" doc:id="d6f98a96-dc40-4a79-a3bc-efe04b9be5d1" config-ref="HTTP_Listener_config" path="/dateweave-api"/>
+		<logger level="INFO" doc:name="Logger" doc:id="bda92420-9e8a-4e3b-8511-c0738f258f35" message="Call Successful"/>
+		<ee:transform doc:name="Transform Message" doc:id="017260a2-7580-460d-8cde-5c17c2879967" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+'$(payload.chiave)': payload.valore
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

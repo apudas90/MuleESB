@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f554d7b3-c401-419f-a853-dc835c4e7e93" >
+		<http:listener-connection host="localhost" port="8090" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="f7d913b9-c02a-481f-b5b2-00993d31ecb0">
+		<http:request-connection host="test-contact-api-deployed-1.us-e2.cloudhub.io" />
+	</http:request-config>
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="fd06338e-8bf2-440b-a990-465787d19493" >
+		<salesforce:basic-connection username="apudas90@gmail.com" password="Apudas@90" securityToken="wY61v95hcbwZUXQGx2uN8oceo" />
+	</salesforce:sfdc-config>
+	<flow name="contact-sfdc-apiFlow" doc:id="0ec2bf81-e6eb-44e9-b216-a14fc8e11c48" >
+		<http:listener doc:name="Listener" doc:id="cbf4c941-5e5e-4eec-a7a9-2e42cfdb413f" config-ref="HTTP_Listener_config" path="/submit"/>
+		<http:request method="GET" doc:name="Request" doc:id="1d252de6-17e5-4d7f-9ca6-23159f57682f" config-ref="HTTP_Request_configuration" path="/api/contacts"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c3351932-61fd-4d05-9181-cf5cab504533" message="Data received from Cloudhub"/>
+		<foreach doc:name="For Each" doc:id="9b24f9ef-93c0-404a-add6-248ca2f054a1" collection="#[payload]">
+			<ee:transform doc:name="Transform Message" doc:id="c9ceeebb-2f3a-45d4-b4c0-69b57cef652b" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[payload]]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<salesforce:create type="Lead" doc:name="Create" doc:id="18a4fc35-52b3-4a3f-8f1b-d99096b972d3" config-ref="Salesforce_Config" />
+		</foreach>
+		<set-payload value='{ "Message": "Lead data craeted to Salseforce" }' doc:name="Set Payload" doc:id="eb0e6ac8-6bcc-4930-b0c3-955b83929d8f" />
+		<logger level="INFO" doc:name="Logger" doc:id="ec24f689-7cb5-4927-81c5-ea7bf2b117e9" message="Data created to SFDC"/>
+	</flow>
+</mule>

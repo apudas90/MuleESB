@@ -1,0 +1,1818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="sharepoint-online">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="encodingCharset">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+        <config name="sharepoint-onpremise">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="encodingCharset">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections>
+        <connection name="okta">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="oktaUsername">
+                    <description><![CDATA[Username that you want to login with against Okta Identity Provider.]]></description>
+                </parameter>
+                <parameter name="oktaPassword">
+                    <description><![CDATA[Password for the user that you are going to login against Okta Identity Provider.]]></description>
+                </parameter>
+                <parameter name="oktaDomain">
+                    <description><![CDATA[Domain name for Okta Identity Provider.]]></description>
+                </parameter>
+                <parameter name="oktaApiToken">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="sharepointEmbededLink">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="disableCnCheck">
+                    <description><![CDATA[When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. <p> To prevent this it is possible to disable the CN (Common Name) check. <p> <b>Note</b>: this is not recommended for production environments.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Hostname for the proxy server.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port number for the proxy server.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[Username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password for the username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="online">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="onlineUsername">
+                    <description><![CDATA[Username that you want to login with. Domain should not be included.]]></description>
+                </parameter>
+                <parameter name="onlinePassword">
+                    <description><![CDATA[Password for the user that you are going to login.]]></description>
+                </parameter>
+                <parameter name="siteUrl">
+                    <description><![CDATA[URL for the sharepoint instance that the connector is going to interact with.]]></description>
+                </parameter>
+                <parameter name="disableCnCheck">
+                    <description><![CDATA[When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. <p> To prevent this it is possible to disable the CN (Common Name) check. <p> <b>Note</b>: this is not recommended for production environments.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Hostname for the proxy server.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port number for the proxy server.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[Username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password for the username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="security-token">
+            <description><![CDATA[Deprecated the SecurityTokenConnectionStrategy Connection Provider because the BasicConnectionProvider already obtains the security token by itself]]></description>
+            <parameters>
+                <parameter name="securityToken">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="securityTokenProvider">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="siteUrl">
+                    <description><![CDATA[URL for the sharepoint instance that the connector is going to interact with.]]></description>
+                </parameter>
+                <parameter name="disableCnCheck">
+                    <description><![CDATA[When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. <p> To prevent this it is possible to disable the CN (Common Name) check. <p> <b>Note</b>: this is not recommended for production environments.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Hostname for the proxy server.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port number for the proxy server.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[Username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password for the username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="claims">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="claimsUsername">
+                    <description><![CDATA[Username that you want to login with. Domain should not be included.]]></description>
+                </parameter>
+                <parameter name="claimsPassword">
+                    <description><![CDATA[Password for the user that you are going to login.]]></description>
+                </parameter>
+                <parameter name="siteUrl">
+                    <description><![CDATA[URL for the sharepoint instance that the connector is going to interact with.]]></description>
+                </parameter>
+                <parameter name="stsUrl">
+                    <description><![CDATA[Security Token Service URL to use for claims authentication]]></description>
+                </parameter>
+                <parameter name="scope">
+                    <description><![CDATA[Application Identifier configured for this Sharepoint Site in the Sts (a.k.a. 'Relying Party Identifier', 'Client Identifier', 'Scope' or 'Realm').]]></description>
+                </parameter>
+                <parameter name="disableCnCheck">
+                    <description><![CDATA[When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. <p> To prevent this it is possible to disable the CN (Common Name) check. <p> <b>Note</b>: this is not recommended for production environments.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Hostname for the proxy server.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port number for the proxy server.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[Username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password for the username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="kerberos">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="kerberosUsername">
+                    <description><![CDATA[Username that you want to login with. Domain should not be included.]]></description>
+                </parameter>
+                <parameter name="kerberosPassword">
+                    <description><![CDATA[Password for the user that you are going to login.]]></description>
+                </parameter>
+                <parameter name="siteUrl">
+                    <description><![CDATA[URL for the sharepoint instance that the connector is going to interact with.]]></description>
+                </parameter>
+                <parameter name="spn">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="realm">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="kdc">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="loginPropertiesFilePath">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="kerberosPropertiesFilePath">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="disableCnCheck">
+                    <description><![CDATA[When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. <p> To prevent this it is possible to disable the CN (Common Name) check. <p> <b>Note</b>: this is not recommended for production environments.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Hostname for the proxy server.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port number for the proxy server.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[Username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password for the username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="ntlm">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="domain">
+                    <description><![CDATA[Domain name to use for NTLM auth]]></description>
+                </parameter>
+                <parameter name="ntlmUsername">
+                    <description><![CDATA[Username that you want to login with. Domain should not be included.]]></description>
+                </parameter>
+                <parameter name="ntlmPassword">
+                    <description><![CDATA[Password for the user that you are going to login.]]></description>
+                </parameter>
+                <parameter name="siteUrl">
+                    <description><![CDATA[URL for the sharepoint instance that the connector is going to interact with.]]></description>
+                </parameter>
+                <parameter name="disableCnCheck">
+                    <description><![CDATA[When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. <p> To prevent this it is possible to disable the CN (Common Name) check. <p> <b>Note</b>: this is not recommended for production environments.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Hostname for the proxy server.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port number for the proxy server.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[Username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password for the username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="security-token">
+            <description><![CDATA[Deprecated the SecurityTokenConnectionStrategy Connection Provider because the BasicConnectionProvider already obtains the security token by itself]]></description>
+            <parameters>
+                <parameter name="securityToken">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="securityTokenProvider">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="siteUrl">
+                    <description><![CDATA[URL for the sharepoint instance that the connector is going to interact with.]]></description>
+                </parameter>
+                <parameter name="disableCnCheck">
+                    <description><![CDATA[When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. <p> To prevent this it is possible to disable the CN (Common Name) check. <p> <b>Note</b>: this is not recommended for production environments.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Hostname for the proxy server.]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[Port number for the proxy server.]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[Username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password for the username to be used in authentication against the proxy server.]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[The domain to authenticate against the proxy.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+    </connections>
+    <extension name="Sharepoint">
+        <description><![CDATA[]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="attachFile">
+            <description><![CDATA[Attach a File to an item from a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listTitle">
+                    <description><![CDATA[(Mandatory) Title of the list the item belongs to]]></description>
+                </parameter>
+                <parameter name="itemId">
+                    <description><![CDATA[The ID of the list item.]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[The name of the file.]]></description>
+                </parameter>
+                <parameter name="content">
+                    <description><![CDATA[The file content represented as a stream. The stream and file name must be given if localFilePath is empty]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileAdd">
+            <description><![CDATA[Adds a file.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="fileContentStream">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="overwrite">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileApprove">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileCheckIn">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="checkInType">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileCheckOut">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileCopyTo">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="newFileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="overwrite">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileDelete">
+            <description><![CDATA[Deletes a file.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileDeny">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileGetContent">
+            <description><![CDATA[FIXME: Add comments.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="filePublish">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileQuery">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="query">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="startingFolderPath">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileRecycle">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileUndoCheckOut">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileUnpublish">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileUpdateMetadata">
+            <description><![CDATA[FIXME: Add comments.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="updateProperties">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="folderCreate">
+            <description><![CDATA[Creates a folder in a Document list]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[(Mandatory) Server relative URL of the folder to create, e.g. /Shared Documents/new folder, creates a folder in the 'Shared Documents' list]]></description>
+                </parameter>
+                <parameter name="welcomePage">
+                    <description><![CDATA[(Optional) Welcome page property of the folder, e.g. index.html]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="folderDelete">
+            <description><![CDATA[Deletes a folder from a Document list]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[(Mandatory) Server relative URL of the folder to delete, e.g. /Shared Documents/new folder, deletes 'new folder' from 'Shared Documents' list]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="folderQuery">
+            <description><![CDATA[Retrieves all folders that matches the specified criteria]]></description>
+            <parameters>
+                <parameter name="query">
+                    <description><![CDATA[(Mandatory) OData query in the format listDocumentName&#63;queryString, e.g Shared Documents&#63;&#36;select=Name&#38;&#36;filter Name e.g. 'folderName']]></description>
+                </parameter>
+                <parameter name="startingFolderPath">
+                    <description><![CDATA[(Optional) The starting path of the folder from where to begin the query, relative to the document library selected as part of the query below, e.g. /myfolder/level2 search for folders inside /document library/myfolder/level2. [Note: you must specify the document library as part of the query below]]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[Specifies whether to search recursively in inner folders]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="getMetadata">
+            <description><![CDATA[Gets the metadata of a determined file.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listCreate">
+            <description><![CDATA[Creates a new SharepointList]]></description>
+            <parameters>
+                <parameter name="list">
+                    <description><![CDATA[(Mandatory) Sharepoint List reference to create]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listDelete">
+            <description><![CDATA[Deletes a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list to delete]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listGet">
+            <description><![CDATA[Retrieves a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list to retrieve]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listGetAll">
+            <description><![CDATA[Retrieves all Sharepoint lists]]></description>
+            <parameters>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listItemCreate">
+            <description><![CDATA[Creates a new Item in an existing Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list where to create the Item]]></description>
+                </parameter>
+                <parameter name="properties">
+                    <description><![CDATA[(Mandatory) Properties of the item to create]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listItemDelete">
+            <description><![CDATA[Deletes an Item from a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list where to delete the Item]]></description>
+                </parameter>
+                <parameter name="itemId">
+                    <description><![CDATA[(Mandatory) Id of the item to delete]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listItemQuery">
+            <description><![CDATA[Executes a query against a Sharepoint list and returns list items that match the specified criteria]]></description>
+            <parameters>
+                <parameter name="query">
+                    <description><![CDATA[Query in the format listId?queryString]]></description>
+                </parameter>
+                <parameter name="retrieveReferences">
+                    <description><![CDATA[Retrieve full objects for reference fields (note: large lists with many reference fields may take a long time to retrieve)]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listItemUpdate">
+            <description><![CDATA[Updates an Item from a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list where to update the Item]]></description>
+                </parameter>
+                <parameter name="itemId">
+                    <description><![CDATA[(Mandatory) Id of the item to update]]></description>
+                </parameter>
+                <parameter name="updatedProperties">
+                    <description><![CDATA[(Mandatory) Item properties to update]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listUpdate">
+            <description><![CDATA[Updates the specified properties of a Sharepoint lists]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list to update]]></description>
+                </parameter>
+                <parameter name="list">
+                    <description><![CDATA[(Mandatory) List Properties to update]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="resolveCollection">
+            <description><![CDATA[Executes an HTTP GET against the Sharepoint API.]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[(Mandatory) The absolute or relative url to get.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="resolveObject">
+            <description><![CDATA[Executes an HTTP GET against the Sharepoint API (POST if body is blob).]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[(Mandatory) The absolute or relative url to get.]]></description>
+                </parameter>
+                <parameter name="resolveRequestType">
+                    <description><![CDATA[The request type to be sent.]]></description>
+                </parameter>
+                <parameter name="body">
+                    <description><![CDATA[Body of the request to send. 'null' if empty request body.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="attachFile">
+            <description><![CDATA[Attach a File to an item from a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listTitle">
+                    <description><![CDATA[(Mandatory) Title of the list the item belongs to]]></description>
+                </parameter>
+                <parameter name="itemId">
+                    <description><![CDATA[The ID of the list item.]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[The name of the file.]]></description>
+                </parameter>
+                <parameter name="content">
+                    <description><![CDATA[The file content represented as a stream. The stream and file name must be given if localFilePath is empty]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileAdd">
+            <description><![CDATA[Adds a file.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="fileContentStream">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="overwrite">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileApprove">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileCheckIn">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="checkInType">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileCheckOut">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileCopyTo">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="newFileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="overwrite">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileDelete">
+            <description><![CDATA[Deletes a file.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileDeny">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileGetContent">
+            <description><![CDATA[FIXME: Add comments.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="filePublish">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileQuery">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="query">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="startingFolderPath">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileRecycle">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileUndoCheckOut">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileUnpublish">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="comment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="fileUpdateMetadata">
+            <description><![CDATA[FIXME: Add comments.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="updateProperties">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="folderCreate">
+            <description><![CDATA[Creates a folder in a Document list]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[(Mandatory) Server relative URL of the folder to create, e.g. /Shared Documents/new folder, creates a folder in the 'Shared Documents' list]]></description>
+                </parameter>
+                <parameter name="welcomePage">
+                    <description><![CDATA[(Optional) Welcome page property of the folder, e.g. index.html]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="folderDelete">
+            <description><![CDATA[Deletes a folder from a Document list]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[(Mandatory) Server relative URL of the folder to delete, e.g. /Shared Documents/new folder, deletes 'new folder' from 'Shared Documents' list]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="folderQuery">
+            <description><![CDATA[Retrieves all folders that matches the specified criteria]]></description>
+            <parameters>
+                <parameter name="query">
+                    <description><![CDATA[(Mandatory) OData query in the format listDocumentName&#63;queryString, e.g Shared Documents&#63;&#36;select=Name&#38;&#36;filter Name e.g. 'folderName']]></description>
+                </parameter>
+                <parameter name="startingFolderPath">
+                    <description><![CDATA[(Optional) The starting path of the folder from where to begin the query, relative to the document library selected as part of the query below, e.g. /myfolder/level2 search for folders inside /document library/myfolder/level2. [Note: you must specify the document library as part of the query below]]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[Specifies whether to search recursively in inner folders]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="getMetadata">
+            <description><![CDATA[Gets the metadata of a determined file.]]></description>
+            <parameters>
+                <parameter name="fileServerRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listCreate">
+            <description><![CDATA[Creates a new SharepointList]]></description>
+            <parameters>
+                <parameter name="list">
+                    <description><![CDATA[(Mandatory) Sharepoint List reference to create]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listDelete">
+            <description><![CDATA[Deletes a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list to delete]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listGet">
+            <description><![CDATA[Retrieves a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list to retrieve]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listGetAll">
+            <description><![CDATA[Retrieves all Sharepoint lists]]></description>
+            <parameters>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listItemCreate">
+            <description><![CDATA[Creates a new Item in an existing Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list where to create the Item]]></description>
+                </parameter>
+                <parameter name="properties">
+                    <description><![CDATA[(Mandatory) Properties of the item to create]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listItemDelete">
+            <description><![CDATA[Deletes an Item from a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list where to delete the Item]]></description>
+                </parameter>
+                <parameter name="itemId">
+                    <description><![CDATA[(Mandatory) Id of the item to delete]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listItemQuery">
+            <description><![CDATA[Executes a query against a Sharepoint list and returns list items that match the specified criteria]]></description>
+            <parameters>
+                <parameter name="query">
+                    <description><![CDATA[Query in the format listId?queryString]]></description>
+                </parameter>
+                <parameter name="retrieveReferences">
+                    <description><![CDATA[Retrieve full objects for reference fields (note: large lists with many reference fields may take a long time to retrieve)]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listItemUpdate">
+            <description><![CDATA[Updates an Item from a Sharepoint list]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list where to update the Item]]></description>
+                </parameter>
+                <parameter name="itemId">
+                    <description><![CDATA[(Mandatory) Id of the item to update]]></description>
+                </parameter>
+                <parameter name="updatedProperties">
+                    <description><![CDATA[(Mandatory) Item properties to update]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="listUpdate">
+            <description><![CDATA[Updates the specified properties of a Sharepoint lists]]></description>
+            <parameters>
+                <parameter name="listId">
+                    <description><![CDATA[(Mandatory) Id of the list to update]]></description>
+                </parameter>
+                <parameter name="list">
+                    <description><![CDATA[(Mandatory) List Properties to update]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="resolveCollection">
+            <description><![CDATA[Executes an HTTP GET against the Sharepoint API.]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[(Mandatory) The absolute or relative url to get.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="resolveObject">
+            <description><![CDATA[Executes an HTTP GET against the Sharepoint API (POST if body is blob).]]></description>
+            <parameters>
+                <parameter name="url">
+                    <description><![CDATA[(Mandatory) The absolute or relative url to get.]]></description>
+                </parameter>
+                <parameter name="resolveRequestType">
+                    <description><![CDATA[The request type to be sent.]]></description>
+                </parameter>
+                <parameter name="body">
+                    <description><![CDATA[Body of the request to send. 'null' if empty request body.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources>
+        <source name="created-objects">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="since">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="objectType">
+                    <description><![CDATA[The type of objects to listen for]]></description>
+                </parameter>
+                <parameter name="listId">
+                    <description><![CDATA[This optional field is used only when listening for newly created list items]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[This optional field is used only when listening for created files or folders]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[Optional parameter used for FOLDER and FILE object types, that specifies the base path to start looking at]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="schedulingStrategy">
+                    <description><![CDATA[Configures the scheduler that triggers the polling]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </source>
+        <source name="deleted-objects">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="since">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="schedulingStrategy">
+                    <description><![CDATA[Configures the scheduler that triggers the polling]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </source>
+        <source name="modified-objects">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="since">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="objectType">
+                    <description><![CDATA[The type of objects to listen for]]></description>
+                </parameter>
+                <parameter name="listId">
+                    <description><![CDATA[This optional field is used only when listening for modified list items]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[This optional field is used only when listening for modified files or folders]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="schedulingStrategy">
+                    <description><![CDATA[Configures the scheduler that triggers the polling]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </source>
+        <source name="created-objects">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="since">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="objectType">
+                    <description><![CDATA[The type of objects to listen for]]></description>
+                </parameter>
+                <parameter name="listId">
+                    <description><![CDATA[This optional field is used only when listening for newly created list items]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[This optional field is used only when listening for created files or folders]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[Optional parameter used for FOLDER and FILE object types, that specifies the base path to start looking at]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="schedulingStrategy">
+                    <description><![CDATA[Configures the scheduler that triggers the polling]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </source>
+        <source name="deleted-objects">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="since">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="schedulingStrategy">
+                    <description><![CDATA[Configures the scheduler that triggers the polling]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </source>
+        <source name="modified-objects">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="since">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="objectType">
+                    <description><![CDATA[The type of objects to listen for]]></description>
+                </parameter>
+                <parameter name="listId">
+                    <description><![CDATA[This optional field is used only when listening for modified list items]]></description>
+                </parameter>
+                <parameter name="recursive">
+                    <description><![CDATA[This optional field is used only when listening for modified files or folders]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="schedulingStrategy">
+                    <description><![CDATA[Configures the scheduler that triggers the polling]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </source>
+    </sources>
+    <types>
+        <type name="com.mulesoft.connectors.sharepoint.api.SecurityTokenProvider">
+            <description><![CDATA[]]></description>
+            <parameters/>
+        </type>
+        <type name="com.mulesoft.connectors.sharepoint.api.SharepointFile">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="author">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="checkInComment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="checkOutType">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="checkedOutByUser">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="contentTag">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="customizedPageStatus">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="eTag">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="exists">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="length">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="level">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="linkingUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="listItemAllFields">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="lockedByUser">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="majorVersion">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="metadata">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="minorVersion">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="modifiedBy">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="name">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="serverRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="timeCreated">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="timeLastModified">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="title">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="uIVersion">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="uIVersionLabel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="uniqueId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="versions">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connectors.sharepoint.api.SharepointFolder">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="exists">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="files">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="folders">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="itemCount">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="listItemAllFields">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="metadata">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="name">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="parentFolder">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="properties">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="serverRelativeUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="timeCreated">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="timeLastModified">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="uniqueId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="welcomePage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connectors.sharepoint.api.SharepointList">
+            <description><![CDATA[Represents a Sharepoint List entity]]></description>
+            <parameters>
+                <parameter name="allowContentTypes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="baseTemplate">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="baseType">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="contentTypes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="contentTypesEnabled">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="crawlNonDefaultViews">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="creatablesInfo">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="created">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="defaultContentApprovalWorkflowId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="defaultDisplayFormUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="defaultEditFormUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="defaultNewFormUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="defaultView">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="description">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="descriptionResource">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="direction">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="documentTemplateUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="draftVersionVisibility">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="enableAttachments">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="enableFolderCreation">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="enableMinorVersions">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="enableModeration">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="enableVersioning">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="entityTypeName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="eventReceivers">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="fields">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="firstUniqueAncestorSecurableObject">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="forceCheckout">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="forms">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="hasExternalDataSource">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="hidden">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="id">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="imageUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="informationRightsManagementSettings">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="irmEnabled">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="irmExpire">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="irmReject">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="isApplicationList">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="isCatalog">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="isPrivate">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="itemCount">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="items">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="lastItemDeletedDate">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="lastItemModifiedDate">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="listItemEntityTypeFullName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="majorVersionLimit">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="majorWithMinorVersionsLimit">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="metadata">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="multipleDataList">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="noCrawl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="onQuickLaunch">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="parentWeb">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="parentWebUrl">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="parserDisabled">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="roleAssignments">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="rootFolder">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="serverTemplateCanCreateFolders">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="templateFeatureId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="title">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="titleResource">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="userCustomActions">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="validationFormula">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="validationMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="views">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="workflowAssociations">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

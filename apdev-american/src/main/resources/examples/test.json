@@ -1,0 +1,28 @@
+[
+	{
+		"ID": 1,
+		"plane": 		{
+			"type": "Boeing 737",
+			"totalSeats": 150
+		},
+		"price": 400,
+		"emptySeats": 100,
+		"code": "ER38sd",
+		"origin": "MUA",
+		"destination": "SFA",
+		"departureDate": "2020-02-09"
+	},
+ 	{
+		"ID": 2,
+		"plane": 		{
+			"type": "Boeing 777",
+			"totalSeats": 100
+		},
+		"price": 350,
+		"emptySeats": 52,
+		"code": "ER56IF",
+		"origin": "MUA",
+		"destination": "LAX",
+		"departureDate": "2020-03-07"
+	}
+]

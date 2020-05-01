@@ -1,0 +1,2410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/sharepoint" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="sharepoint-online-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.EncodingCharsetEnumType" use="optional" default="UTF_8" name="encodingCharset"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="okta-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="oktaUsername">
+            <xs:annotation>
+              <xs:documentation>Username that you want to login with against Okta Identity Provider.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="oktaPassword">
+            <xs:annotation>
+              <xs:documentation>Password for the user that you are going to login against Okta Identity Provider.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="oktaDomain">
+            <xs:annotation>
+              <xs:documentation>Domain name for Okta Identity Provider.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="oktaApiToken"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="sharepointEmbededLink"></xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableCnCheck">
+            <xs:annotation>
+              <xs:documentation>When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. &lt;p&gt; To prevent this it is possible to disable the CN (Common Name) check. &lt;p&gt; &lt;b&gt;Note&lt;/b&gt;: this is not recommended for production environments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="host">
+            <xs:annotation>
+              <xs:documentation>Hostname for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Port number for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password for the username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="ntlmDomain">
+            <xs:annotation>
+              <xs:documentation>The domain to authenticate against the proxy.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="online-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="onlineUsername">
+            <xs:annotation>
+              <xs:documentation>Username that you want to login with. Domain should not be included.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="onlinePassword">
+            <xs:annotation>
+              <xs:documentation>Password for the user that you are going to login.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="siteUrl">
+            <xs:annotation>
+              <xs:documentation>URL for the sharepoint instance that the connector is going to interact with.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableCnCheck">
+            <xs:annotation>
+              <xs:documentation>When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. &lt;p&gt; To prevent this it is possible to disable the CN (Common Name) check. &lt;p&gt; &lt;b&gt;Note&lt;/b&gt;: this is not recommended for production environments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="host">
+            <xs:annotation>
+              <xs:documentation>Hostname for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Port number for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password for the username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="ntlmDomain">
+            <xs:annotation>
+              <xs:documentation>The domain to authenticate against the proxy.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="security-token-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="securityToken"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="securityTokenProvider"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="siteUrl">
+            <xs:annotation>
+              <xs:documentation>URL for the sharepoint instance that the connector is going to interact with.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableCnCheck">
+            <xs:annotation>
+              <xs:documentation>When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. &lt;p&gt; To prevent this it is possible to disable the CN (Common Name) check. &lt;p&gt; &lt;b&gt;Note&lt;/b&gt;: this is not recommended for production environments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="host">
+            <xs:annotation>
+              <xs:documentation>Hostname for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Port number for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password for the username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="ntlmDomain">
+            <xs:annotation>
+              <xs:documentation>The domain to authenticate against the proxy.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Created-objectsType" substitutionGroup="mule:abstract-message-source" name="created-objects"></xs:element>
+  <xs:complexType name="Created-objectsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="since"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.TriggersKeysApiEnumType" use="required" name="objectType">
+          <xs:annotation>
+            <xs:documentation>The type of objects to listen for</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="listId">
+          <xs:annotation>
+            <xs:documentation>This optional field is used only when listening for newly created list items</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="recursive">
+          <xs:annotation>
+            <xs:documentation>This optional field is used only when listening for created files or folders</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="/" name="path">
+          <xs:annotation>
+            <xs:documentation>Optional parameter used for FOLDER and FILE object types, that specifies the base path to start looking at</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Deleted-objectsType" substitutionGroup="mule:abstract-message-source" name="deleted-objects"></xs:element>
+  <xs:complexType name="Deleted-objectsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="since"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Modified-objectsType" substitutionGroup="mule:abstract-message-source" name="modified-objects"></xs:element>
+  <xs:complexType name="Modified-objectsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="since"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.TriggersKeysApiEnumType" use="required" name="objectType">
+          <xs:annotation>
+            <xs:documentation>The type of objects to listen for</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="listId">
+          <xs:annotation>
+            <xs:documentation>This optional field is used only when listening for modified list items</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="recursive">
+          <xs:annotation>
+            <xs:documentation>This optional field is used only when listening for modified files or folders</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="/" name="path"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AttachFileType" substitutionGroup="mule:abstract-operator" name="attach-file">
+    <xs:annotation>
+      <xs:documentation>Attach a File to an item from a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AttachFileType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>The file content represented as a stream. The stream and file name must be given if localFilePath is empty</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listTitle">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Title of the list the item belongs to</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="itemId">
+          <xs:annotation>
+            <xs:documentation>The ID of the list item.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="fileName">
+          <xs:annotation>
+            <xs:documentation>The name of the file.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileAddType" substitutionGroup="mule:abstract-operator" name="file-add">
+    <xs:annotation>
+      <xs:documentation>Adds a file.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileAddType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="file-content-stream"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="overwrite"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileApproveType" substitutionGroup="mule:abstract-operator" name="file-approve"></xs:element>
+  <xs:complexType name="FileApproveType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileCheckInType" substitutionGroup="mule:abstract-operator" name="file-check-in"></xs:element>
+  <xs:complexType name="FileCheckInType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.CheckInTypeEnumType" use="required" name="checkInType"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileCheckOutType" substitutionGroup="mule:abstract-operator" name="file-check-out"></xs:element>
+  <xs:complexType name="FileCheckOutType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileCopyToType" substitutionGroup="mule:abstract-operator" name="file-copy-to"></xs:element>
+  <xs:complexType name="FileCopyToType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="newFileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="overwrite"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileDeleteType" substitutionGroup="mule:abstract-operator" name="file-delete">
+    <xs:annotation>
+      <xs:documentation>Deletes a file.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileDenyType" substitutionGroup="mule:abstract-operator" name="file-deny"></xs:element>
+  <xs:complexType name="FileDenyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileGetContentType" substitutionGroup="mule:abstract-operator" name="file-get-content">
+    <xs:annotation>
+      <xs:documentation>FIXME: Add comments.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileGetContentType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FilePublishType" substitutionGroup="mule:abstract-operator" name="file-publish"></xs:element>
+  <xs:complexType name="FilePublishType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileQueryType" substitutionGroup="mule:abstract-operator" name="file-query"></xs:element>
+  <xs:complexType name="FileQueryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="query"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="/" name="startingFolderPath"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="recursive"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileRecycleType" substitutionGroup="mule:abstract-operator" name="file-recycle"></xs:element>
+  <xs:complexType name="FileRecycleType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileUndoCheckOutType" substitutionGroup="mule:abstract-operator" name="file-undo-check-out"></xs:element>
+  <xs:complexType name="FileUndoCheckOutType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileUnpublishType" substitutionGroup="mule:abstract-operator" name="file-unpublish"></xs:element>
+  <xs:complexType name="FileUnpublishType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileUpdateMetadataType" substitutionGroup="mule:abstract-operator" name="file-update-metadata">
+    <xs:annotation>
+      <xs:documentation>FIXME: Add comments.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileUpdateMetadataType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="update-properties"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FolderCreateType" substitutionGroup="mule:abstract-operator" name="folder-create">
+    <xs:annotation>
+      <xs:documentation>Creates a folder in a Document list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FolderCreateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="url">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Server relative URL of the folder to create, e.g. /Shared Documents/new folder, creates a folder in the 'Shared Documents' list</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="welcomePage">
+          <xs:annotation>
+            <xs:documentation>(Optional) Welcome page property of the folder, e.g. index.html</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FolderDeleteType" substitutionGroup="mule:abstract-operator" name="folder-delete">
+    <xs:annotation>
+      <xs:documentation>Deletes a folder from a Document list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FolderDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="url">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Server relative URL of the folder to delete, e.g. /Shared Documents/new folder, deletes 'new folder' from 'Shared Documents' list</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FolderQueryType" substitutionGroup="mule:abstract-operator" name="folder-query">
+    <xs:annotation>
+      <xs:documentation>Retrieves all folders that matches the specified criteria</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FolderQueryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="query">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) OData query in the format listDocumentName&amp;#63;queryString, e.g Shared Documents&amp;#63;&amp;#36;select=Name&amp;#38;&amp;#36;filter Name e.g. 'folderName'</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="/" name="startingFolderPath">
+          <xs:annotation>
+            <xs:documentation>(Optional) The starting path of the folder from where to begin the query, relative to the document library selected as part of the query below, e.g. /myfolder/level2 search for folders inside /document library/myfolder/level2. [Note: you must specify the document library as part of the query below]</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="recursive">
+          <xs:annotation>
+            <xs:documentation>Specifies whether to search recursively in inner folders</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetMetadataType" substitutionGroup="mule:abstract-operator" name="get-metadata">
+    <xs:annotation>
+      <xs:documentation>Gets the metadata of a determined file.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetMetadataType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListCreateType" substitutionGroup="mule:abstract-operator" name="list-create">
+    <xs:annotation>
+      <xs:documentation>Creates a new SharepointList</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListCreateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="list">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) Sharepoint List reference to create</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListDeleteType" substitutionGroup="mule:abstract-operator" name="list-delete">
+    <xs:annotation>
+      <xs:documentation>Deletes a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list to delete</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListGetType" substitutionGroup="mule:abstract-operator" name="list-get">
+    <xs:annotation>
+      <xs:documentation>Retrieves a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListGetType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list to retrieve</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListGetAllType" substitutionGroup="mule:abstract-operator" name="list-get-all">
+    <xs:annotation>
+      <xs:documentation>Retrieves all Sharepoint lists</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListGetAllType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListItemCreateType" substitutionGroup="mule:abstract-operator" name="list-item-create">
+    <xs:annotation>
+      <xs:documentation>Creates a new Item in an existing Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListItemCreateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="properties">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) Properties of the item to create</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list where to create the Item</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListItemDeleteType" substitutionGroup="mule:abstract-operator" name="list-item-delete">
+    <xs:annotation>
+      <xs:documentation>Deletes an Item from a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListItemDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list where to delete the Item</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="itemId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the item to delete</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListItemQueryType" substitutionGroup="mule:abstract-operator" name="list-item-query">
+    <xs:annotation>
+      <xs:documentation>Executes a query against a Sharepoint list and returns list items that match the specified criteria</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListItemQueryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-object-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="query">
+            <xs:annotation>
+              <xs:documentation>Query in the format listId?queryString</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="retrieveReferences">
+          <xs:annotation>
+            <xs:documentation>Retrieve full objects for reference fields (note: large lists with many reference fields may take a long time to retrieve)</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListItemUpdateType" substitutionGroup="mule:abstract-operator" name="list-item-update">
+    <xs:annotation>
+      <xs:documentation>Updates an Item from a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListItemUpdateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="updated-properties">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) Item properties to update</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list where to update the Item</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="itemId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the item to update</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListUpdateType" substitutionGroup="mule:abstract-operator" name="list-update">
+    <xs:annotation>
+      <xs:documentation>Updates the specified properties of a Sharepoint lists</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListUpdateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="list">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) List Properties to update</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list to update</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ResolveCollectionType" substitutionGroup="mule:abstract-operator" name="resolve-collection">
+    <xs:annotation>
+      <xs:documentation>Executes an HTTP GET against the Sharepoint API.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ResolveCollectionType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="url">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) The absolute or relative url to get.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ResolveObjectType" substitutionGroup="mule:abstract-operator" name="resolve-object">
+    <xs:annotation>
+      <xs:documentation>Executes an HTTP GET against the Sharepoint API (POST if body is blob).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ResolveObjectType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+            <xs:annotation>
+              <xs:documentation>Body of the request to send. 'null' if empty request body.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="url">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) The absolute or relative url to get.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.ResolveRequestTypeEnumType" use="optional" default="Get" name="resolveRequestType">
+          <xs:annotation>
+            <xs:documentation>The request type to be sent.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="sharepoint-onpremise-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.EncodingCharsetEnumType" use="optional" default="UTF_8" name="encodingCharset"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="claims-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="claimsUsername">
+            <xs:annotation>
+              <xs:documentation>Username that you want to login with. Domain should not be included.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="claimsPassword">
+            <xs:annotation>
+              <xs:documentation>Password for the user that you are going to login.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="siteUrl">
+            <xs:annotation>
+              <xs:documentation>URL for the sharepoint instance that the connector is going to interact with.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="stsUrl">
+            <xs:annotation>
+              <xs:documentation>Security Token Service URL to use for claims authentication</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="scope">
+            <xs:annotation>
+              <xs:documentation>Application Identifier configured for this Sharepoint Site in the Sts (a.k.a. 'Relying Party Identifier', 'Client Identifier', 'Scope' or 'Realm').</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableCnCheck">
+            <xs:annotation>
+              <xs:documentation>When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. &lt;p&gt; To prevent this it is possible to disable the CN (Common Name) check. &lt;p&gt; &lt;b&gt;Note&lt;/b&gt;: this is not recommended for production environments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="host">
+            <xs:annotation>
+              <xs:documentation>Hostname for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Port number for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password for the username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="ntlmDomain">
+            <xs:annotation>
+              <xs:documentation>The domain to authenticate against the proxy.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="kerberos-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="kerberosUsername">
+            <xs:annotation>
+              <xs:documentation>Username that you want to login with. Domain should not be included.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="kerberosPassword">
+            <xs:annotation>
+              <xs:documentation>Password for the user that you are going to login.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="siteUrl">
+            <xs:annotation>
+              <xs:documentation>URL for the sharepoint instance that the connector is going to interact with.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="spn"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="realm"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="kdc"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="loginPropertiesFilePath"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="kerberosPropertiesFilePath"></xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableCnCheck">
+            <xs:annotation>
+              <xs:documentation>When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. &lt;p&gt; To prevent this it is possible to disable the CN (Common Name) check. &lt;p&gt; &lt;b&gt;Note&lt;/b&gt;: this is not recommended for production environments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="host">
+            <xs:annotation>
+              <xs:documentation>Hostname for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Port number for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password for the username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="ntlmDomain">
+            <xs:annotation>
+              <xs:documentation>The domain to authenticate against the proxy.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="ntlm-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="domain">
+            <xs:annotation>
+              <xs:documentation>Domain name to use for NTLM auth</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="ntlmUsername">
+            <xs:annotation>
+              <xs:documentation>Username that you want to login with. Domain should not be included.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="ntlmPassword">
+            <xs:annotation>
+              <xs:documentation>Password for the user that you are going to login.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="siteUrl">
+            <xs:annotation>
+              <xs:documentation>URL for the sharepoint instance that the connector is going to interact with.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableCnCheck">
+            <xs:annotation>
+              <xs:documentation>When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. &lt;p&gt; To prevent this it is possible to disable the CN (Common Name) check. &lt;p&gt; &lt;b&gt;Note&lt;/b&gt;: this is not recommended for production environments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="host">
+            <xs:annotation>
+              <xs:documentation>Hostname for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Port number for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password for the username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="ntlmDomain">
+            <xs:annotation>
+              <xs:documentation>The domain to authenticate against the proxy.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="security-token-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="required" name="securityToken"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="securityTokenProvider"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="siteUrl">
+            <xs:annotation>
+              <xs:documentation>URL for the sharepoint instance that the connector is going to interact with.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableCnCheck">
+            <xs:annotation>
+              <xs:documentation>When dealing with HTTPS certificates, if the certificate is not signed by a trusted partner, the server might respond with an Exception. &lt;p&gt; To prevent this it is possible to disable the CN (Common Name) check. &lt;p&gt; &lt;b&gt;Note&lt;/b&gt;: this is not recommended for production environments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="host">
+            <xs:annotation>
+              <xs:documentation>Hostname for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionInt" use="optional" name="port">
+            <xs:annotation>
+              <xs:documentation>Port number for the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="username">
+            <xs:annotation>
+              <xs:documentation>Username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password for the username to be used in authentication against the proxy server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="ntlmDomain">
+            <xs:annotation>
+              <xs:documentation>The domain to authenticate against the proxy.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Created-objectsType" substitutionGroup="mule:abstract-message-source" name="created-objects"></xs:element>
+  <xs:complexType name="Created-objectsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="since"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.TriggersKeysApiEnumType" use="required" name="objectType">
+          <xs:annotation>
+            <xs:documentation>The type of objects to listen for</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="listId">
+          <xs:annotation>
+            <xs:documentation>This optional field is used only when listening for newly created list items</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="recursive">
+          <xs:annotation>
+            <xs:documentation>This optional field is used only when listening for created files or folders</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="/" name="path">
+          <xs:annotation>
+            <xs:documentation>Optional parameter used for FOLDER and FILE object types, that specifies the base path to start looking at</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Deleted-objectsType" substitutionGroup="mule:abstract-message-source" name="deleted-objects"></xs:element>
+  <xs:complexType name="Deleted-objectsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="since"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Modified-objectsType" substitutionGroup="mule:abstract-message-source" name="modified-objects"></xs:element>
+  <xs:complexType name="Modified-objectsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" ref="mule:scheduling-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="since"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.TriggersKeysApiEnumType" use="required" name="objectType">
+          <xs:annotation>
+            <xs:documentation>The type of objects to listen for</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="listId">
+          <xs:annotation>
+            <xs:documentation>This optional field is used only when listening for modified list items</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="recursive">
+          <xs:annotation>
+            <xs:documentation>This optional field is used only when listening for modified files or folders</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="/" name="path"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AttachFileType" substitutionGroup="mule:abstract-operator" name="attach-file">
+    <xs:annotation>
+      <xs:documentation>Attach a File to an item from a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AttachFileType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>The file content represented as a stream. The stream and file name must be given if localFilePath is empty</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listTitle">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Title of the list the item belongs to</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="itemId">
+          <xs:annotation>
+            <xs:documentation>The ID of the list item.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="fileName">
+          <xs:annotation>
+            <xs:documentation>The name of the file.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileAddType" substitutionGroup="mule:abstract-operator" name="file-add">
+    <xs:annotation>
+      <xs:documentation>Adds a file.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileAddType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="file-content-stream"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="overwrite"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileApproveType" substitutionGroup="mule:abstract-operator" name="file-approve"></xs:element>
+  <xs:complexType name="FileApproveType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileCheckInType" substitutionGroup="mule:abstract-operator" name="file-check-in"></xs:element>
+  <xs:complexType name="FileCheckInType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.CheckInTypeEnumType" use="required" name="checkInType"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileCheckOutType" substitutionGroup="mule:abstract-operator" name="file-check-out"></xs:element>
+  <xs:complexType name="FileCheckOutType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileCopyToType" substitutionGroup="mule:abstract-operator" name="file-copy-to"></xs:element>
+  <xs:complexType name="FileCopyToType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="newFileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="overwrite"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileDeleteType" substitutionGroup="mule:abstract-operator" name="file-delete">
+    <xs:annotation>
+      <xs:documentation>Deletes a file.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileDenyType" substitutionGroup="mule:abstract-operator" name="file-deny"></xs:element>
+  <xs:complexType name="FileDenyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileGetContentType" substitutionGroup="mule:abstract-operator" name="file-get-content">
+    <xs:annotation>
+      <xs:documentation>FIXME: Add comments.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileGetContentType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FilePublishType" substitutionGroup="mule:abstract-operator" name="file-publish"></xs:element>
+  <xs:complexType name="FilePublishType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileQueryType" substitutionGroup="mule:abstract-operator" name="file-query"></xs:element>
+  <xs:complexType name="FileQueryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="query"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="/" name="startingFolderPath"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="recursive"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileRecycleType" substitutionGroup="mule:abstract-operator" name="file-recycle"></xs:element>
+  <xs:complexType name="FileRecycleType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileUndoCheckOutType" substitutionGroup="mule:abstract-operator" name="file-undo-check-out"></xs:element>
+  <xs:complexType name="FileUndoCheckOutType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileUnpublishType" substitutionGroup="mule:abstract-operator" name="file-unpublish"></xs:element>
+  <xs:complexType name="FileUnpublishType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="comment"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FileUpdateMetadataType" substitutionGroup="mule:abstract-operator" name="file-update-metadata">
+    <xs:annotation>
+      <xs:documentation>FIXME: Add comments.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileUpdateMetadataType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="update-properties"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FolderCreateType" substitutionGroup="mule:abstract-operator" name="folder-create">
+    <xs:annotation>
+      <xs:documentation>Creates a folder in a Document list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FolderCreateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="url">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Server relative URL of the folder to create, e.g. /Shared Documents/new folder, creates a folder in the 'Shared Documents' list</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="welcomePage">
+          <xs:annotation>
+            <xs:documentation>(Optional) Welcome page property of the folder, e.g. index.html</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FolderDeleteType" substitutionGroup="mule:abstract-operator" name="folder-delete">
+    <xs:annotation>
+      <xs:documentation>Deletes a folder from a Document list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FolderDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="url">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Server relative URL of the folder to delete, e.g. /Shared Documents/new folder, deletes 'new folder' from 'Shared Documents' list</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="FolderQueryType" substitutionGroup="mule:abstract-operator" name="folder-query">
+    <xs:annotation>
+      <xs:documentation>Retrieves all folders that matches the specified criteria</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FolderQueryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="query">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) OData query in the format listDocumentName&amp;#63;queryString, e.g Shared Documents&amp;#63;&amp;#36;select=Name&amp;#38;&amp;#36;filter Name e.g. 'folderName'</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" default="/" name="startingFolderPath">
+          <xs:annotation>
+            <xs:documentation>(Optional) The starting path of the folder from where to begin the query, relative to the document library selected as part of the query below, e.g. /myfolder/level2 search for folders inside /document library/myfolder/level2. [Note: you must specify the document library as part of the query below]</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="recursive">
+          <xs:annotation>
+            <xs:documentation>Specifies whether to search recursively in inner folders</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetMetadataType" substitutionGroup="mule:abstract-operator" name="get-metadata">
+    <xs:annotation>
+      <xs:documentation>Gets the metadata of a determined file.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetMetadataType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="fileServerRelativeUrl"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListCreateType" substitutionGroup="mule:abstract-operator" name="list-create">
+    <xs:annotation>
+      <xs:documentation>Creates a new SharepointList</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListCreateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="list">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) Sharepoint List reference to create</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListDeleteType" substitutionGroup="mule:abstract-operator" name="list-delete">
+    <xs:annotation>
+      <xs:documentation>Deletes a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list to delete</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListGetType" substitutionGroup="mule:abstract-operator" name="list-get">
+    <xs:annotation>
+      <xs:documentation>Retrieves a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListGetType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list to retrieve</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListGetAllType" substitutionGroup="mule:abstract-operator" name="list-get-all">
+    <xs:annotation>
+      <xs:documentation>Retrieves all Sharepoint lists</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListGetAllType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListItemCreateType" substitutionGroup="mule:abstract-operator" name="list-item-create">
+    <xs:annotation>
+      <xs:documentation>Creates a new Item in an existing Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListItemCreateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="properties">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) Properties of the item to create</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list where to create the Item</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListItemDeleteType" substitutionGroup="mule:abstract-operator" name="list-item-delete">
+    <xs:annotation>
+      <xs:documentation>Deletes an Item from a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListItemDeleteType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list where to delete the Item</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="itemId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the item to delete</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListItemQueryType" substitutionGroup="mule:abstract-operator" name="list-item-query">
+    <xs:annotation>
+      <xs:documentation>Executes a query against a Sharepoint list and returns list items that match the specified criteria</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListItemQueryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-object-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="query">
+            <xs:annotation>
+              <xs:documentation>Query in the format listId?queryString</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="retrieveReferences">
+          <xs:annotation>
+            <xs:documentation>Retrieve full objects for reference fields (note: large lists with many reference fields may take a long time to retrieve)</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListItemUpdateType" substitutionGroup="mule:abstract-operator" name="list-item-update">
+    <xs:annotation>
+      <xs:documentation>Updates an Item from a Sharepoint list</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListItemUpdateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="updated-properties">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) Item properties to update</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list where to update the Item</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="itemId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the item to update</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ListUpdateType" substitutionGroup="mule:abstract-operator" name="list-update">
+    <xs:annotation>
+      <xs:documentation>Updates the specified properties of a Sharepoint lists</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ListUpdateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="list">
+            <xs:annotation>
+              <xs:documentation>(Mandatory) List Properties to update</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="listId">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) Id of the list to update</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ResolveCollectionType" substitutionGroup="mule:abstract-operator" name="resolve-collection">
+    <xs:annotation>
+      <xs:documentation>Executes an HTTP GET against the Sharepoint API.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ResolveCollectionType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="url">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) The absolute or relative url to get.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sharepoint" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ResolveObjectType" substitutionGroup="mule:abstract-operator" name="resolve-object">
+    <xs:annotation>
+      <xs:documentation>Executes an HTTP GET against the Sharepoint API (POST if body is blob).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ResolveObjectType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="body">
+            <xs:annotation>
+              <xs:documentation>Body of the request to send. 'null' if empty request body.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="url">
+          <xs:annotation>
+            <xs:documentation>(Mandatory) The absolute or relative url to get.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sharepoint" type="com.mulesoft.connectors.sharepoint.api.ResolveRequestTypeEnumType" use="optional" default="Get" name="resolveRequestType">
+          <xs:annotation>
+            <xs:documentation>The request type to be sent.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="com.mulesoft.connectors.sharepoint.api.EncodingCharsetEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="US_ASCII"></xs:enumeration>
+          <xs:enumeration value="ISO_8859_1"></xs:enumeration>
+          <xs:enumeration value="UTF_8"></xs:enumeration>
+          <xs:enumeration value="UTF_16BE"></xs:enumeration>
+          <xs:enumeration value="UTF_16LE"></xs:enumeration>
+          <xs:enumeration value="UTF_16"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.sharepoint.api.TriggersKeysApiEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="FOLDER"></xs:enumeration>
+          <xs:enumeration value="FILE"></xs:enumeration>
+          <xs:enumeration value="LIST"></xs:enumeration>
+          <xs:enumeration value="LIST_ITEM"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.sharepoint.api.CheckInTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MINOR_CHECK_IN"></xs:enumeration>
+          <xs:enumeration value="MAJOR_CHECK_IN"></xs:enumeration>
+          <xs:enumeration value="OVERWRITE_CHECK_IN"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.sharepoint.api.ResolveRequestTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Get"></xs:enumeration>
+          <xs:enumeration value="Create"></xs:enumeration>
+          <xs:enumeration value="Merge"></xs:enumeration>
+          <xs:enumeration value="Delete"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>
