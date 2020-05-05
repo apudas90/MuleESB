@@ -1,0 +1,1647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/crypto" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:complexType name="com.mulesoft.modules.cryptography.api.pgp.config.PgpKeyInfo">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" type="crypto:com.mulesoft.modules.cryptography.api.pgp.config.PgpKeyInfo" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-pgp-key-info"></xs:element>
+  <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" type="crypto:com.mulesoft.modules.cryptography.api.pgp.config.PgpKeyInfo" abstract="true" name="abstract-pgp-key-info"></xs:element>
+  <xs:complexType name="com.mulesoft.modules.cryptography.api.pgp.config.PgpAsymmetricKeyInfo">
+    <xs:complexContent>
+      <xs:extension xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" base="crypto:com.mulesoft.modules.cryptography.api.pgp.config.PgpKeyInfo">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="keyId"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="fingerprint"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="principal"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="passphrase"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" type="crypto:com.mulesoft.modules.cryptography.api.pgp.config.PgpAsymmetricKeyInfo" substitutionGroup="crypto:abstract-pgp-key-info" abstract="true" name="abstract-pgp-asymmetric-key-info"></xs:element>
+  <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" substitutionGroup="crypto:abstract-pgp-asymmetric-key-info" name="pgp-asymmetric-key-info">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="crypto:com.mulesoft.modules.cryptography.api.pgp.config.PgpAsymmetricKeyInfo"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.modules.cryptography.api.jce.config.JceKeyInfo">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" type="crypto:com.mulesoft.modules.cryptography.api.jce.config.JceKeyInfo" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-jce-key-info"></xs:element>
+  <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" type="crypto:com.mulesoft.modules.cryptography.api.jce.config.JceKeyInfo" abstract="true" name="abstract-jce-key-info"></xs:element>
+  <xs:complexType name="com.mulesoft.modules.cryptography.api.jce.config.JceAsymmetricKeyInfo">
+    <xs:complexContent>
+      <xs:extension xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" base="crypto:com.mulesoft.modules.cryptography.api.jce.config.JceKeyInfo">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="keyId"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="alias"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="password"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" type="crypto:com.mulesoft.modules.cryptography.api.jce.config.JceAsymmetricKeyInfo" substitutionGroup="crypto:abstract-jce-key-info" abstract="true" name="abstract-jce-asymmetric-key-info"></xs:element>
+  <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" substitutionGroup="crypto:abstract-jce-asymmetric-key-info" name="jce-asymmetric-key-info">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="crypto:com.mulesoft.modules.cryptography.api.jce.config.JceAsymmetricKeyInfo"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.modules.cryptography.api.jce.config.JceSymmetricKeyInfo">
+    <xs:complexContent>
+      <xs:extension xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" base="crypto:com.mulesoft.modules.cryptography.api.jce.config.JceKeyInfo">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="keyId"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="alias"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="password"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" type="crypto:com.mulesoft.modules.cryptography.api.jce.config.JceSymmetricKeyInfo" substitutionGroup="crypto:abstract-jce-key-info" abstract="true" name="abstract-jce-symmetric-key-info"></xs:element>
+  <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" substitutionGroup="crypto:abstract-jce-symmetric-key-info" name="jce-symmetric-key-info">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="crypto:com.mulesoft.modules.cryptography.api.jce.config.JceSymmetricKeyInfo"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="jce-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>JCE configuration for Java keystores and inline keys.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="jce-key-infos">
+              <xs:annotation>
+                <xs:documentation>List of keys to be considered, with internal IDs for referencing them.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                    <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+                  </xs:choice>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="optional" name="keystore">
+            <xs:annotation>
+              <xs:documentation>Path to the keystore file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceKeystoreTypeEnumType" use="optional" default="JKS" name="type">
+            <xs:annotation>
+              <xs:documentation>Type of the keystore.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="password">
+            <xs:annotation>
+              <xs:documentation>Password for unlocking the keystore.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="jceKeyInfos">
+            <xs:annotation>
+              <xs:documentation>List of keys to be considered, with internal IDs for referencing them.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="useRandomIVs">
+            <xs:annotation>
+              <xs:documentation>Use random initial vectors (IVs) for CBC algorithms. In case of decryption, it assumes IV is prepended on the ciphertext.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="JceDecryptType" substitutionGroup="mule:abstract-operator" name="jce-decrypt">
+    <xs:annotation>
+      <xs:documentation>Decrypt a stream using JCE, with a key.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="JceDecryptType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to decrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="jce-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="cipher">
+          <xs:annotation>
+            <xs:documentation>A raw cipher string in the form "algorithm/mode/padding", according to the Java crypto documentation. Note that not all combinations are valid.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceEncryptionKeyAlgorithmEnumType" use="optional" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>Algorithm from a list of valid definitions, this is preferred.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="jceKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="JceEncryptType" substitutionGroup="mule:abstract-operator" name="jce-encrypt">
+    <xs:annotation>
+      <xs:documentation>Encrypt a stream using JCE, with a key.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="JceEncryptType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to encrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="jce-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="cipher">
+          <xs:annotation>
+            <xs:documentation>A raw cipher string in the form "algorithm/mode/padding", according to the Java crypto documentation. Note that not all combinations are valid.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceEncryptionKeyAlgorithmEnumType" use="optional" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>Algorithm from a list of valid definitions, this is preferred.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="jceKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="JceSignType" substitutionGroup="mule:abstract-operator" name="jce-sign">
+    <xs:annotation>
+      <xs:documentation>Sign a stream using JCE, with a key.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="JceSignType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to sign</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="jce-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceSignatureKeyAlgorithmEnumType" use="optional" default="HmacSHA256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the algorithm used for signing</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="jceKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="JceValidateType" substitutionGroup="mule:abstract-operator" name="jce-validate">
+    <xs:annotation>
+      <xs:documentation>Validate a stream against a signature, using a key.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="JceValidateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="jce-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="value">
+          <xs:annotation>
+            <xs:documentation>the message to authenticate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="expected">
+          <xs:annotation>
+            <xs:documentation>the signature to validate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceSignatureKeyAlgorithmEnumType" use="optional" default="HmacSHA256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the algorithm used for signing</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="jceKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="XmlDecryptType" substitutionGroup="mule:abstract-operator" name="xml-decrypt">
+    <xs:annotation>
+      <xs:documentation>Decrypt the XML document.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XmlDecryptType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the document to decrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="jce-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="elementPath"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="jceKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="XmlEncryptType" substitutionGroup="mule:abstract-operator" name="xml-encrypt">
+    <xs:annotation>
+      <xs:documentation>Encrypt the XML document.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XmlEncryptType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the document to encrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="jce-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.xml.config.XmlEncryptionAlgorithmEnumType" use="optional" default="AES_CBC" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the algorithm for encryption</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="elementPath">
+          <xs:annotation>
+            <xs:documentation>the path to the element to encrypt, if empty the whole document is considered</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="encryptContent">
+          <xs:annotation>
+            <xs:documentation>encrypt the XML element or its content, if false the whole XML element is encrypted.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="jceKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.xml.config.XmlKeyTransportAlgorithmEnumType" use="optional" default="RSA_OAEP" name="encryptionAlgorithm"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.xml.config.XmlCanonicalizationAlgorithmEnumType" use="optional" default="EXCLUSIVE" name="c14nAlgorithm"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.xml.config.XmlSignDigestAlgorithmEnumType" use="optional" default="SHA1" name="digestAlgorithm"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="XmlSignType" substitutionGroup="mule:abstract-operator" name="xml-sign">
+    <xs:annotation>
+      <xs:documentation>Sign an XML document.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XmlSignType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the XML document to sign</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="jce-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.xml.config.XmlSignDigestAlgorithmEnumType" use="optional" default="SHA256" name="digestAlgorithm">
+          <xs:annotation>
+            <xs:documentation>the hashing algorithm for signing</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.xml.config.XmlCanonicalizationAlgorithmEnumType" use="optional" default="EXCLUSIVE" name="canonicalizationAlgorithm">
+          <xs:annotation>
+            <xs:documentation>the canonicalization method for whitespace and namespace unification</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.xml.config.XmlSignatureTypeEnumType" use="optional" default="ENVELOPED" name="type">
+          <xs:annotation>
+            <xs:documentation>the type of signature to create</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="elementPath">
+          <xs:annotation>
+            <xs:documentation>for internally detached signatures, an unambiguous XPath expression resolving to the element to sign</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="jceKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="XmlValidateType" substitutionGroup="mule:abstract-operator" name="xml-validate">
+    <xs:annotation>
+      <xs:documentation>Validate an XML signed document.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="XmlValidateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the document to verify (includes the signature)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="jce-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-jce-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-jce-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="elementPath">
+          <xs:annotation>
+            <xs:documentation>for internally detached signatures, an unambiguous XPath expression resolving to the signed element</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="useInlineCertificateIfPresent"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="jceKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="pgp-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Keystore configuration for GPG. Contains a list of keys with internal names to be used in the operations.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="pgp-key-infos">
+              <xs:annotation>
+                <xs:documentation>List of keys to be considered, with internal IDs for referencing them.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-pgp-key-info"></xs:element>
+                    <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-pgp-key-info"></xs:element>
+                  </xs:choice>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionString" use="optional" name="publicKeyring">
+            <xs:annotation>
+              <xs:documentation>Public key ring file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="privateKeyring">
+            <xs:annotation>
+              <xs:documentation>Private key ring file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionList" use="optional" name="pgpKeyInfos">
+            <xs:annotation>
+              <xs:documentation>List of keys to be considered, with internal IDs for referencing them.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PgpDecryptType" substitutionGroup="mule:abstract-operator" name="pgp-decrypt">
+    <xs:annotation>
+      <xs:documentation>Decrypt a stream using PGP, giving the original data as a result. The decryption is done with the private key, so the secret passphrase must be provided.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PgpDecryptType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to decrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="fileName">
+          <xs:annotation>
+            <xs:documentation>the internal file name to decrypt, if not present the first will be used</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="validateIfSignatureFound"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PgpEncryptType" substitutionGroup="mule:abstract-operator" name="pgp-encrypt">
+    <xs:annotation>
+      <xs:documentation>Encrypt a stream using PGP, giving an ASCII-armored stream output as a result. The encryption is done with the public key of the recipient, so the secret passphrase is not required.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PgpEncryptType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to encrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="pgp-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-pgp-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-pgp-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.pgp.config.PgpEncryptionAlgorithmEnumType" use="optional" default="AES_256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the symmetric algorithm to use for encryption</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="stream" name="fileName">
+          <xs:annotation>
+            <xs:documentation>the internal file name to use in the resulting PGP header</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableMDC"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="pgpKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PgpEncryptAndSignType" substitutionGroup="mule:abstract-operator" name="pgp-encrypt-and-sign">
+    <xs:annotation>
+      <xs:documentation>Encrypt a stream using PGP, giving an ASCII-armored stream output as a result. The encryption is done with the public key of the recipient, so the secret passphrase is not required.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PgpEncryptAndSignType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to encrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="encryption-key-selection">
+            <xs:annotation>
+              <xs:documentation>the key used to encrypt the message</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" base="crypto:com.mulesoft.modules.cryptography.api.pgp.config.PgpKeySelection"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="sign-key-selection">
+            <xs:annotation>
+              <xs:documentation>the key used to sign the message</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" base="crypto:com.mulesoft.modules.cryptography.api.pgp.config.PgpKeySelection"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.pgp.config.PgpEncryptionAlgorithmEnumType" use="optional" default="AES_256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the symmetric algorithm to use for encryption</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="stream" name="fileName">
+          <xs:annotation>
+            <xs:documentation>the internal file name to use in the resulting PGP header</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="encryptionKeySelection">
+          <xs:annotation>
+            <xs:documentation>the key used to encrypt the message</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="signKeySelection">
+          <xs:annotation>
+            <xs:documentation>the key used to sign the message</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableMDC"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="com.mulesoft.modules.cryptography.api.pgp.config.PgpKeySelection">
+    <xs:annotation>
+      <xs:documentation>the key used to encrypt the message</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" name="pgp-key-info">
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-pgp-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-pgp-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="pgpKeyInfo"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PgpEncryptBinaryType" substitutionGroup="mule:abstract-operator" name="pgp-encrypt-binary">
+    <xs:annotation>
+      <xs:documentation>Encrypt a stream using PGP, giving a binary output as a result. The encryption is done with the public key of the recipient, so the secret passphrase is not required.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PgpEncryptBinaryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to encrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="pgp-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-pgp-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-pgp-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.pgp.config.PgpEncryptionAlgorithmEnumType" use="optional" default="AES_256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the symmetric algorithm to use for encryption</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="stream" name="fileName">
+          <xs:annotation>
+            <xs:documentation>the internal file name to use in the resulting PGP header</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="false" name="disableMDC"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="pgpKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PgpSignType" substitutionGroup="mule:abstract-operator" name="pgp-sign">
+    <xs:annotation>
+      <xs:documentation>Create a detached (standalone) PGP signature of the stream. The signing is done with the private key of the sender, so the secret passphrase must be provided.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PgpSignType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to sign</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="pgp-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-pgp-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-pgp-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.pgp.config.PgpSignatureAlgorithmEnumType" use="optional" default="SHA256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the digest (or hashing) algorithm</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="pgpKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PgpSignBinaryType" substitutionGroup="mule:abstract-operator" name="pgp-sign-binary">
+    <xs:annotation>
+      <xs:documentation>Create a detached (standalone) PGP signature of the stream. The signing is done with the private key of the sender, so the secret passphrase must be provided.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PgpSignBinaryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to sign</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="pgp-key-info">
+            <xs:annotation>
+              <xs:documentation>An inline key definition.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:abstract-pgp-key-info"></xs:element>
+                <xs:element xmlns:crypto="http://www.mulesoft.org/schema/mule/crypto" minOccurs="1" maxOccurs="1" ref="crypto:global-abstract-pgp-key-info"></xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.pgp.config.PgpSignatureAlgorithmEnumType" use="optional" default="SHA256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the digest (or hashing) algorithm</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="keyId">
+          <xs:annotation>
+            <xs:documentation>The key ID, as defined in the JCE configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="pgpKeyInfo">
+          <xs:annotation>
+            <xs:documentation>An inline key definition.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PgpValidateType" substitutionGroup="mule:abstract-operator" name="pgp-validate">
+    <xs:annotation>
+      <xs:documentation>Validate a PGP signature against a stream, to authenticate it. The validation is done with the public key of the sender, so the secret passphrase is not required.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PgpValidateType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="value">
+          <xs:annotation>
+            <xs:documentation>the message to authenticate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="expected">
+          <xs:annotation>
+            <xs:documentation>the signature</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CalculateChecksumType" substitutionGroup="mule:abstract-operator" name="calculate-checksum">
+    <xs:annotation>
+      <xs:documentation>Calculate the checksum of the stream.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CalculateChecksumType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content for calculating the checksum</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.checksum.ChecksumAlgorithmEnumType" use="optional" default="SHA_256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the checksum algorithm</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="JceDecryptPbeType" substitutionGroup="mule:abstract-operator" name="jce-decrypt-pbe">
+    <xs:annotation>
+      <xs:documentation>Decrypt a stream using JCE, with a password.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="JceDecryptPbeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to decrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceEncryptionPbeAlgorithmEnumType" use="optional" default="PBEWithHmacSHA256AndAES_128" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the algorithm for generating a key from the password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password">
+          <xs:annotation>
+            <xs:documentation>the password for decryption</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="JceEncryptPbeType" substitutionGroup="mule:abstract-operator" name="jce-encrypt-pbe">
+    <xs:annotation>
+      <xs:documentation>Encrypt a stream using JCE, with a password.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="JceEncryptPbeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to encrypt</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceEncryptionPbeAlgorithmEnumType" use="optional" default="PBEWithHmacSHA256AndAES_128" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the algorithm for generating a key from the password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password">
+          <xs:annotation>
+            <xs:documentation>the password for encryption</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="JceSignPbeType" substitutionGroup="mule:abstract-operator" name="jce-sign-pbe">
+    <xs:annotation>
+      <xs:documentation>Sign a stream using JCE, with a key.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="JceSignPbeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to sign</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceSignaturePbeAlgorithmEnumType" use="optional" default="PBEWithHmacSHA256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the algorithm used for signing</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password">
+          <xs:annotation>
+            <xs:documentation>the password used to sign</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="JceValidatePbeType" substitutionGroup="mule:abstract-operator" name="jce-validate-pbe">
+    <xs:annotation>
+      <xs:documentation>Validate a stream against a signature, using a key.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="JceValidatePbeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="value">
+          <xs:annotation>
+            <xs:documentation>the message to authenticate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="expected">
+          <xs:annotation>
+            <xs:documentation>the signature to validate</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.jce.config.JceSignaturePbeAlgorithmEnumType" use="optional" default="PBEWithHmacSHA256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the algorithm used for signing</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password">
+          <xs:annotation>
+            <xs:documentation>the password used to sign</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="PgpBinaryToArmoredType" substitutionGroup="mule:abstract-operator" name="pgp-binary-to-armored">
+    <xs:annotation>
+      <xs:documentation>Converts an encrypted PGP message or a PGP signature to an ASCII armored representation, suitable for plain text channels.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="PgpBinaryToArmoredType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>the content to convert</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/crypto" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ValidateChecksumType" substitutionGroup="mule:abstract-operator" name="validate-checksum">
+    <xs:annotation>
+      <xs:documentation>Validate the checksum of the stream against an expected checksum.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ValidateChecksumType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/crypto" type="com.mulesoft.modules.cryptography.api.checksum.ChecksumAlgorithmEnumType" use="optional" default="SHA_256" name="algorithm">
+          <xs:annotation>
+            <xs:documentation>the checksum algorithm</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="value">
+          <xs:annotation>
+            <xs:documentation>the content for calculating the checksum</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="expected">
+          <xs:annotation>
+            <xs:documentation>the expected checksum as an hexadecimal string</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.jce.config.JceKeystoreTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="JKS"></xs:enumeration>
+          <xs:enumeration value="JCEKS"></xs:enumeration>
+          <xs:enumeration value="PKCS12"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.jce.config.JceEncryptionKeyAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AES"></xs:enumeration>
+          <xs:enumeration value="AESWrap"></xs:enumeration>
+          <xs:enumeration value="ARCFOUR"></xs:enumeration>
+          <xs:enumeration value="Blowfish"></xs:enumeration>
+          <xs:enumeration value="DES"></xs:enumeration>
+          <xs:enumeration value="DESede"></xs:enumeration>
+          <xs:enumeration value="RC2"></xs:enumeration>
+          <xs:enumeration value="DESedeWrap"></xs:enumeration>
+          <xs:enumeration value="RSA"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.jce.config.JceSignatureKeyAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MD2withRSA"></xs:enumeration>
+          <xs:enumeration value="MD5withRSA"></xs:enumeration>
+          <xs:enumeration value="SHA1withRSA"></xs:enumeration>
+          <xs:enumeration value="SHA224withRSA"></xs:enumeration>
+          <xs:enumeration value="SHA256withRSA"></xs:enumeration>
+          <xs:enumeration value="SHA384withRSA"></xs:enumeration>
+          <xs:enumeration value="SHA512withRSA"></xs:enumeration>
+          <xs:enumeration value="NONEwithDSA"></xs:enumeration>
+          <xs:enumeration value="SHA1withDSA"></xs:enumeration>
+          <xs:enumeration value="SHA224withDSA"></xs:enumeration>
+          <xs:enumeration value="SHA256withDSA"></xs:enumeration>
+          <xs:enumeration value="HmacMD5"></xs:enumeration>
+          <xs:enumeration value="HmacSHA1"></xs:enumeration>
+          <xs:enumeration value="HmacSHA224"></xs:enumeration>
+          <xs:enumeration value="HmacSHA256"></xs:enumeration>
+          <xs:enumeration value="HmacSHA384"></xs:enumeration>
+          <xs:enumeration value="HmacSHA512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.xml.config.XmlEncryptionAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AES_CBC"></xs:enumeration>
+          <xs:enumeration value="AES_GCM"></xs:enumeration>
+          <xs:enumeration value="TRIPLEDES"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.xml.config.XmlKeyTransportAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="RSA15"></xs:enumeration>
+          <xs:enumeration value="RSA_OAEP"></xs:enumeration>
+          <xs:enumeration value="RSA_OAEP_11"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.xml.config.XmlCanonicalizationAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="EXCLUSIVE"></xs:enumeration>
+          <xs:enumeration value="EXCLUSIVE_WITH_COMMENTS"></xs:enumeration>
+          <xs:enumeration value="INCLUSIVE"></xs:enumeration>
+          <xs:enumeration value="INCLUSE_WITH_COMMENTS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.xml.config.XmlSignDigestAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="RIPEMD160"></xs:enumeration>
+          <xs:enumeration value="SHA1"></xs:enumeration>
+          <xs:enumeration value="SHA256"></xs:enumeration>
+          <xs:enumeration value="SHA512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.xml.config.XmlSignatureTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DETACHED"></xs:enumeration>
+          <xs:enumeration value="ENVELOPED"></xs:enumeration>
+          <xs:enumeration value="ENVELOPING"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.pgp.config.PgpEncryptionAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="IDEA"></xs:enumeration>
+          <xs:enumeration value="TRIPLE_DES"></xs:enumeration>
+          <xs:enumeration value="CAST5"></xs:enumeration>
+          <xs:enumeration value="BLOWFISH"></xs:enumeration>
+          <xs:enumeration value="SAFER"></xs:enumeration>
+          <xs:enumeration value="DES"></xs:enumeration>
+          <xs:enumeration value="AES_128"></xs:enumeration>
+          <xs:enumeration value="AES_192"></xs:enumeration>
+          <xs:enumeration value="AES_256"></xs:enumeration>
+          <xs:enumeration value="TWOFISH"></xs:enumeration>
+          <xs:enumeration value="CAMELLIA_128"></xs:enumeration>
+          <xs:enumeration value="CAMELLIA_192"></xs:enumeration>
+          <xs:enumeration value="CAMELLIA_256"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.pgp.config.PgpSignatureAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MD5"></xs:enumeration>
+          <xs:enumeration value="RIPEMD160"></xs:enumeration>
+          <xs:enumeration value="TIGER_192"></xs:enumeration>
+          <xs:enumeration value="HAVAL_5_160"></xs:enumeration>
+          <xs:enumeration value="DOUBLE_SHA"></xs:enumeration>
+          <xs:enumeration value="SHA1"></xs:enumeration>
+          <xs:enumeration value="SHA224"></xs:enumeration>
+          <xs:enumeration value="SHA256"></xs:enumeration>
+          <xs:enumeration value="SHA384"></xs:enumeration>
+          <xs:enumeration value="SHA512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.checksum.ChecksumAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CRC32"></xs:enumeration>
+          <xs:enumeration value="MD2"></xs:enumeration>
+          <xs:enumeration value="MD5"></xs:enumeration>
+          <xs:enumeration value="SHA_1"></xs:enumeration>
+          <xs:enumeration value="SHA_256"></xs:enumeration>
+          <xs:enumeration value="SHA_512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.jce.config.JceEncryptionPbeAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="PBEWithMD5AndDES"></xs:enumeration>
+          <xs:enumeration value="PBEWithMD5AndTripleDES"></xs:enumeration>
+          <xs:enumeration value="PBEWithSHA1AndDESede"></xs:enumeration>
+          <xs:enumeration value="PBEWithSHA1AndRC2_40"></xs:enumeration>
+          <xs:enumeration value="PBEWithSHA1AndRC2_128"></xs:enumeration>
+          <xs:enumeration value="PBEWithSHA1AndRC4_40"></xs:enumeration>
+          <xs:enumeration value="PBEWithSHA1AndRC4_128"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA1AndAES_128"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA224AndAES_128"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA256AndAES_128"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA384AndAES_128"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA512AndAES_128"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA1AndAES_256"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA224AndAES_256"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA256AndAES_256"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA384AndAES_256"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA512AndAES_256"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.cryptography.api.jce.config.JceSignaturePbeAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="HmacPBESHA1"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA1"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA224"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA256"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA384"></xs:enumeration>
+          <xs:enumeration value="PBEWithHmacSHA512"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

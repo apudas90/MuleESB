@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="jce">
+            <description><![CDATA[JCE configuration for Java keystores and inline keys.]]></description>
+            <parameters>
+                <parameter name="keystore">
+                    <description><![CDATA[Path to the keystore file.]]></description>
+                </parameter>
+                <parameter name="type">
+                    <description><![CDATA[Type of the keystore.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password for unlocking the keystore.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfos">
+                    <description><![CDATA[List of keys to be considered, with internal IDs for referencing them.]]></description>
+                </parameter>
+                <parameter name="useRandomIVs">
+                    <description><![CDATA[Use random initial vectors (IVs) for CBC algorithms. In case of decryption, it assumes IV is prepended on the ciphertext.]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+        <config name="pgp">
+            <description><![CDATA[Keystore configuration for GPG. Contains a list of keys with internal names to be used in the operations.]]></description>
+            <parameters>
+                <parameter name="publicKeyring">
+                    <description><![CDATA[Public key ring file.]]></description>
+                </parameter>
+                <parameter name="privateKeyring">
+                    <description><![CDATA[Private key ring file.]]></description>
+                </parameter>
+                <parameter name="pgpKeyInfos">
+                    <description><![CDATA[List of keys to be considered, with internal IDs for referencing them.]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections/>
+    <extension name="Crypto">
+        <description><![CDATA[Allows encrypting and signing data]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="jceDecrypt">
+            <description><![CDATA[Decrypt a stream using JCE, with a key.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to decrypt]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="cipher">
+                    <description><![CDATA[A raw cipher string in the form "algorithm/mode/padding", according to the Java crypto documentation. Note that not all combinations are valid.]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[Algorithm from a list of valid definitions, this is preferred.]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="jceEncrypt">
+            <description><![CDATA[Encrypt a stream using JCE, with a key.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to encrypt]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="cipher">
+                    <description><![CDATA[A raw cipher string in the form "algorithm/mode/padding", according to the Java crypto documentation. Note that not all combinations are valid.]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[Algorithm from a list of valid definitions, this is preferred.]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="jceSign">
+            <description><![CDATA[Sign a stream using JCE, with a key.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to sign]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the algorithm used for signing]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="jceValidate">
+            <description><![CDATA[Validate a stream against a signature, using a key.]]></description>
+            <parameters>
+                <parameter name="value">
+                    <description><![CDATA[the message to authenticate]]></description>
+                </parameter>
+                <parameter name="expected">
+                    <description><![CDATA[the signature to validate]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the algorithm used for signing]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="xmlDecrypt">
+            <description><![CDATA[Decrypt the XML document.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the document to decrypt]]></description>
+                </parameter>
+                <parameter name="elementPath">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="xmlEncrypt">
+            <description><![CDATA[Encrypt the XML document.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the document to encrypt]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the algorithm for encryption]]></description>
+                </parameter>
+                <parameter name="elementPath">
+                    <description><![CDATA[the path to the element to encrypt, if empty the whole document is considered]]></description>
+                </parameter>
+                <parameter name="encryptContent">
+                    <description><![CDATA[encrypt the XML element or its content, if false the whole XML element is encrypted.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="encryptionAlgorithm">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="c14nAlgorithm">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="digestAlgorithm">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="xmlSign">
+            <description><![CDATA[Sign an XML document.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the XML document to sign]]></description>
+                </parameter>
+                <parameter name="digestAlgorithm">
+                    <description><![CDATA[the hashing algorithm for signing]]></description>
+                </parameter>
+                <parameter name="canonicalizationAlgorithm">
+                    <description><![CDATA[the canonicalization method for whitespace and namespace unification]]></description>
+                </parameter>
+                <parameter name="type">
+                    <description><![CDATA[the type of signature to create]]></description>
+                </parameter>
+                <parameter name="elementPath">
+                    <description><![CDATA[for internally detached signatures, an unambiguous XPath expression resolving to the element to sign]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="xmlValidate">
+            <description><![CDATA[Validate an XML signed document.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the document to verify (includes the signature)]]></description>
+                </parameter>
+                <parameter name="elementPath">
+                    <description><![CDATA[for internally detached signatures, an unambiguous XPath expression resolving to the signed element]]></description>
+                </parameter>
+                <parameter name="useInlineCertificateIfPresent">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="jceKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="pgpDecrypt">
+            <description><![CDATA[Decrypt a stream using PGP, giving the original data as a result. The decryption is done with the private key, so the secret passphrase must be provided.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to decrypt]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[the internal file name to decrypt, if not present the first will be used]]></description>
+                </parameter>
+                <parameter name="validateIfSignatureFound">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="pgpEncrypt">
+            <description><![CDATA[Encrypt a stream using PGP, giving an ASCII-armored stream output as a result. The encryption is done with the public key of the recipient, so the secret passphrase is not required.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to encrypt]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the symmetric algorithm to use for encryption]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[the internal file name to use in the resulting PGP header]]></description>
+                </parameter>
+                <parameter name="disableMDC">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="pgpKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="pgpEncryptAndSign">
+            <description><![CDATA[Encrypt a stream using PGP, giving an ASCII-armored stream output as a result. The encryption is done with the public key of the recipient, so the secret passphrase is not required.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to encrypt]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the symmetric algorithm to use for encryption]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[the internal file name to use in the resulting PGP header]]></description>
+                </parameter>
+                <parameter name="encryptionKeySelection">
+                    <description><![CDATA[the key used to encrypt the message]]></description>
+                </parameter>
+                <parameter name="signKeySelection">
+                    <description><![CDATA[the key used to sign the message]]></description>
+                </parameter>
+                <parameter name="disableMDC">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="pgpEncryptBinary">
+            <description><![CDATA[Encrypt a stream using PGP, giving a binary output as a result. The encryption is done with the public key of the recipient, so the secret passphrase is not required.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to encrypt]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the symmetric algorithm to use for encryption]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[the internal file name to use in the resulting PGP header]]></description>
+                </parameter>
+                <parameter name="disableMDC">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="pgpKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="pgpSign">
+            <description><![CDATA[Create a detached (standalone) PGP signature of the stream. The signing is done with the private key of the sender, so the secret passphrase must be provided.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to sign]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the digest (or hashing) algorithm]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="pgpKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="pgpSignBinary">
+            <description><![CDATA[Create a detached (standalone) PGP signature of the stream. The signing is done with the private key of the sender, so the secret passphrase must be provided.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to sign]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the digest (or hashing) algorithm]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="pgpKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="pgpValidate">
+            <description><![CDATA[Validate a PGP signature against a stream, to authenticate it. The validation is done with the public key of the sender, so the secret passphrase is not required.]]></description>
+            <parameters>
+                <parameter name="value">
+                    <description><![CDATA[the message to authenticate]]></description>
+                </parameter>
+                <parameter name="expected">
+                    <description><![CDATA[the signature]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="calculateChecksum">
+            <description><![CDATA[Calculate the checksum of the stream.]]></description>
+            <parameters>
+                <parameter name="algorithm">
+                    <description><![CDATA[the checksum algorithm]]></description>
+                </parameter>
+                <parameter name="content">
+                    <description><![CDATA[the content for calculating the checksum]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="jceDecryptPbe">
+            <description><![CDATA[Decrypt a stream using JCE, with a password.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to decrypt]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the algorithm for generating a key from the password]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[the password for decryption]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="jceEncryptPbe">
+            <description><![CDATA[Encrypt a stream using JCE, with a password.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to encrypt]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the algorithm for generating a key from the password]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[the password for encryption]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="jceSignPbe">
+            <description><![CDATA[Sign a stream using JCE, with a key.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to sign]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the algorithm used for signing]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[the password used to sign]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="jceValidatePbe">
+            <description><![CDATA[Validate a stream against a signature, using a key.]]></description>
+            <parameters>
+                <parameter name="value">
+                    <description><![CDATA[the message to authenticate]]></description>
+                </parameter>
+                <parameter name="expected">
+                    <description><![CDATA[the signature to validate]]></description>
+                </parameter>
+                <parameter name="algorithm">
+                    <description><![CDATA[the algorithm used for signing]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[the password used to sign]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="pgpBinaryToArmored">
+            <description><![CDATA[Converts an encrypted PGP message or a PGP signature to an ASCII armored representation, suitable for plain text channels.]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[the content to convert]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="validateChecksum">
+            <description><![CDATA[Validate the checksum of the stream against an expected checksum.]]></description>
+            <parameters>
+                <parameter name="algorithm">
+                    <description><![CDATA[the checksum algorithm]]></description>
+                </parameter>
+                <parameter name="value">
+                    <description><![CDATA[the content for calculating the checksum]]></description>
+                </parameter>
+                <parameter name="expected">
+                    <description><![CDATA[the expected checksum as an hexadecimal string]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources/>
+    <types>
+        <type name="com.mulesoft.modules.cryptography.api.jce.config.JceAsymmetricKeyInfo">
+            <description><![CDATA[Information for identifying an asymmetric key pair in a Java keystore, and an associated internal keyId for use in operations.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="keyId">
+                    <description><![CDATA[Internal key ID for referencing from operations.]]></description>
+                </parameter>
+                <parameter name="alias">
+                    <description><![CDATA[Alias of the key in the keystore.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password used to unlock the private part of the key.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.modules.cryptography.api.jce.config.JceKeyInfo">
+            <description><![CDATA[JCE key interface for both symmetric and asymmetric keys.
+
+ @since 1.0]]></description>
+            <parameters/>
+        </type>
+        <type name="com.mulesoft.modules.cryptography.api.jce.config.JceSymmetricKeyInfo">
+            <description><![CDATA[Information for identifying a symmetric key in a Java keystore, and an associated internal keyId for use in operations.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="keyId">
+                    <description><![CDATA[Internal key ID for referencing from operations.]]></description>
+                </parameter>
+                <parameter name="alias">
+                    <description><![CDATA[Alias of the key in the keystore.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password used to unlock the key.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.modules.cryptography.api.pgp.config.PgpAsymmetricKeyInfo">
+            <description><![CDATA[Configuration identification for a GPG asymmetric key, with optional passphrase in case the private part is needed.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="keyId">
+                    <description><![CDATA[Internal key ID for referencing from operations.]]></description>
+                </parameter>
+                <parameter name="keyPairIdentifier">
+                    <description><![CDATA[A way to identify the key inside the keystore.]]></description>
+                </parameter>
+                <parameter name="passphrase">
+                    <description><![CDATA[The password for unlocking the secret part of the key.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.modules.cryptography.api.pgp.config.PgpKeyInfo">
+            <description><![CDATA[GPG key interface for both symmetric and asymmetric keys.
+
+ @since 1.0]]></description>
+            <parameters/>
+        </type>
+        <type name="com.mulesoft.modules.cryptography.api.pgp.config.PgpKeySelection">
+            <description><![CDATA[Allows selecting a key either through the internal alias defined in the configuration's list of keys, or
+ a single inline definition.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="keyId">
+                    <description><![CDATA[The key ID, as defined in the JCE configuration.]]></description>
+                </parameter>
+                <parameter name="pgpKeyInfo">
+                    <description><![CDATA[An inline key definition.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>
