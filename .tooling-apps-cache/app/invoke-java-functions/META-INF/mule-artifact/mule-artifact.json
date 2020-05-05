@@ -1,0 +1,26 @@
+{
+  "configs": [
+    "invoke-java-functions.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:invoke-java-functions:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.2-hf2",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [
+        "com.java.invoke"
+      ],
+      "exportedResources": [
+        "invoke-java-functions.xml",
+        "log4j2.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}
