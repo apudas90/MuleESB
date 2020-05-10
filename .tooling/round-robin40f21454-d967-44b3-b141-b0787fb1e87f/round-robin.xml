@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a5a51a91-4239-4af6-91f0-3236e35a1069" >
+		<http:listener-connection host="localhost" port="8087" />
+	</http:listener-config>
+	<flow name="round-robinFlow" doc:id="c8e25119-7f3a-4ef2-a5ca-54e7ada9d580" >
+		<http:listener doc:name="Listener" doc:id="8336e761-20e2-40ad-adbd-6d4d16f40c52" />
+	</flow>
+</mule>
