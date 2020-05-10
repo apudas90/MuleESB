@@ -1,0 +1,24 @@
+{
+  "configs": [
+    "onewayssl-client-server-demo.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:onewayssl-client-server-demo:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.2-hf2",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "log4j2.xml",
+        "onewayssl-client-server-demo.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="2828b545-4cca-44d7-b57e-30e0e6ce6ec4" >
+		<http:listener-connection protocol="HTTPS" host="localhost" port="9001" >
+			<tls:context >
+				<tls:key-store type="jks" path="server-keystore.jks" alias="mule-server" keyPassword="mulesoft" password="mulesoft" />
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<flow name="onewayssl-client-server-demoFlow" doc:id="a251ab00-5f21-46f8-9538-9c282cca351a" >
+		<http:listener doc:name="Listener" doc:id="b4c1ee0a-d512-42eb-a7f3-3103d4c4a957" config-ref="HTTP_Listener_config" path="/server"/>
+	</flow>
+</mule>
