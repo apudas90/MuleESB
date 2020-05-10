@@ -1,0 +1,35 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "java",
+    "attributes": {
+      "type": "com.mulesoft.connector.as2.internal.extension.AS2Connector",
+      "version": "5.1.1"
+    }
+  },
+  "license": {
+    "requiredEntitlement": "as2-connector",
+    "provider": "Mulesoft",
+    "allowsEvaluation": true
+  },
+  "name": "AS2 Connector",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "org.mule.extension.http.api.request.proxy",
+        "org.mule.extension.http.api.request.authentication",
+        "com.mulesoft.connector.as2.api",
+        "org.mule.extension.http.api.request.validator"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.1.1"
+}

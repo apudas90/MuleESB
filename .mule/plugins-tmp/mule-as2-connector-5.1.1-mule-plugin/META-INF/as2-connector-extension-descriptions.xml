@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="ListenerConfig">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="httpListenerConfig">
+                    <description><![CDATA[Reference to global HTTP Listener definition for our service endpoint used by partner for both action and signal messages.]]></description>
+                </parameter>
+                <parameter name="inboundRequestAuthentication">
+                    <description><![CDATA[Authentication method to use for verifying the incoming HTTP request.]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+                <parameter name="as2Name">
+                    <description><![CDATA[AS2 system identifier (used for AS2-From and AS2-To headers)]]></description>
+                </parameter>
+                <parameter name="x509Alias">
+                    <description><![CDATA[Certificate and/or private key alias in keystore (required if using signing or encryption)]]></description>
+                </parameter>
+                <parameter name="email">
+                    <description><![CDATA[Email address used as HTTP 'From' header when sending]]></description>
+                </parameter>
+                <parameter name="as2Name">
+                    <description><![CDATA[AS2 system identifier (used for AS2-From and AS2-To headers)]]></description>
+                </parameter>
+                <parameter name="x509Alias">
+                    <description><![CDATA[Certificate and/or private key alias in keystore (required if using signing or encryption)]]></description>
+                </parameter>
+                <parameter name="email">
+                    <description><![CDATA[Email address used as HTTP 'From' header when sending]]></description>
+                </parameter>
+                <parameter name="keystorePassword">
+                    <description><![CDATA[The password of the provided keystore.]]></description>
+                </parameter>
+                <parameter name="keystorePath">
+                    <description><![CDATA[The Absolute or relative path to the keystore containing certificates and private keys for self(this application) and the partner.]]></description>
+                </parameter>
+                <parameter name="privateKeyPassword">
+                    <description><![CDATA[If the private key to be used for signing/encryption is password protected, please give that value here.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+        <config name="MDNListenerConfig">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="httpListenerConfig">
+                    <description><![CDATA[Reference to global HTTP Listener definition for our service endpoint used by partner for both action and signal messages.]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+                <parameter name="as2Name">
+                    <description><![CDATA[AS2 system identifier (used for AS2-From and AS2-To headers)]]></description>
+                </parameter>
+                <parameter name="x509Alias">
+                    <description><![CDATA[Certificate and/or private key alias in keystore (required if using signing or encryption)]]></description>
+                </parameter>
+                <parameter name="email">
+                    <description><![CDATA[Email address used as HTTP 'From' header when sending]]></description>
+                </parameter>
+                <parameter name="as2Name">
+                    <description><![CDATA[AS2 system identifier (used for AS2-From and AS2-To headers)]]></description>
+                </parameter>
+                <parameter name="x509Alias">
+                    <description><![CDATA[Certificate and/or private key alias in keystore (required if using signing or encryption)]]></description>
+                </parameter>
+                <parameter name="email">
+                    <description><![CDATA[Email address used as HTTP 'From' header when sending]]></description>
+                </parameter>
+                <parameter name="keystorePassword">
+                    <description><![CDATA[The password of the provided keystore.]]></description>
+                </parameter>
+                <parameter name="keystorePath">
+                    <description><![CDATA[The Absolute or relative path to the keystore containing certificates and private keys for self(this application) and the partner.]]></description>
+                </parameter>
+                <parameter name="privateKeyPassword">
+                    <description><![CDATA[If the private key to be used for signing/encryption is password protected, please give that value here.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+        <config name="send-config">
+            <description><![CDATA[This class represents an extension configuration, values set in this class are commonly used across multiple operations since they represent something core from the extension.]]></description>
+            <parameters>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+                <parameter name="as2Name">
+                    <description><![CDATA[AS2 system identifier (used for AS2-From and AS2-To headers)]]></description>
+                </parameter>
+                <parameter name="x509Alias">
+                    <description><![CDATA[Certificate and/or private key alias in keystore (required if using signing or encryption)]]></description>
+                </parameter>
+                <parameter name="email">
+                    <description><![CDATA[Email address used as HTTP 'From' header when sending]]></description>
+                </parameter>
+                <parameter name="as2Name">
+                    <description><![CDATA[AS2 system identifier (used for AS2-From and AS2-To headers)]]></description>
+                </parameter>
+                <parameter name="x509Alias">
+                    <description><![CDATA[Certificate and/or private key alias in keystore (required if using signing or encryption)]]></description>
+                </parameter>
+                <parameter name="email">
+                    <description><![CDATA[Email address used as HTTP 'From' header when sending]]></description>
+                </parameter>
+                <parameter name="subject">
+                    <description><![CDATA[Free form text for MIME Subject header]]></description>
+                </parameter>
+                <parameter name="micAlg">
+                    <description><![CDATA[The algorithm to be used when setting the message integrity check value]]></description>
+                </parameter>
+                <parameter name="mdnMicAlg">
+                    <description><![CDATA[Request partner to respond with a signed MDN using this algorithm for calculating MIC]]></description>
+                </parameter>
+                <parameter name="encryptionAlg">
+                    <description><![CDATA[The Algorithm to be used when encrypting the message to be sent]]></description>
+                </parameter>
+                <parameter name="contentTransferEncoding">
+                    <description><![CDATA[The encoding to be used on the content of AS2 message being sent]]></description>
+                </parameter>
+                <parameter name="requestReceipt">
+                    <description><![CDATA[How the connector will behave based on the received receipts]]></description>
+                </parameter>
+                <parameter name="compressionType">
+                    <description><![CDATA[The Compression type to be used]]></description>
+                </parameter>
+                <parameter name="receiptDeliveryURL">
+                    <description><![CDATA[The Asynchronous MDN delivery address which the mdn will be returned to. This should be the fully formed URL to the Async MDN Listener (AS2 Source Component). Ex: https://example.com/mdn It is only required if "Send With Async MDN" is used.]]></description>
+                </parameter>
+                <parameter name="keystorePassword">
+                    <description><![CDATA[The password of the provided keystore.]]></description>
+                </parameter>
+                <parameter name="keystorePath">
+                    <description><![CDATA[The Absolute or relative path to the keystore containing certificates and private keys for self(this application) and the partner.]]></description>
+                </parameter>
+                <parameter name="privateKeyPassword">
+                    <description><![CDATA[If the private key to be used for signing/encryption is password protected, please give that value here.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections>
+        <connection name="async-mdn-connection-provider">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="usePersistentConnections">
+                    <description><![CDATA[If false, each connection will be closed after the first request is completed.]]></description>
+                </parameter>
+                <parameter name="connectionTimeout">
+                    <description><![CDATA[The timeout for establishing connections to the remote service. This value is qualified by the #connectionTimeoutUnits]]></description>
+                </parameter>
+                <parameter name="connectionTimeoutUnits">
+                    <description><![CDATA[A time unit which qualifies the #connectionTimeout]]></description>
+                </parameter>
+                <parameter name="maxConnections">
+                    <description><![CDATA[The maximum number of outbound connections that will be kept open at the same time. By default the number of connections is unlimited.]]></description>
+                </parameter>
+                <parameter name="connectionIdleTimeout">
+                    <description><![CDATA[A timeout for how long a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled. This value is qualified bY the #connectionIdleTimeoutUnits]]></description>
+                </parameter>
+                <parameter name="connectionIdleTimeoutUnits">
+                    <description><![CDATA[A time unit which qualifies the #connectionIdleTimeoutUnits]]></description>
+                </parameter>
+                <parameter name="proxyConfig">
+                    <description><![CDATA[Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.]]></description>
+                </parameter>
+                <parameter name="authentication">
+                    <description><![CDATA[Authentication method to use for the HTTP request. Not to be used!]]></description>
+                </parameter>
+                <parameter name="tlsContext">
+                    <description><![CDATA[Reference to a TLS config element. This will enable HTTPS for this config.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+        <connection name="connection">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="usePersistentConnections">
+                    <description><![CDATA[If false, each connection will be closed after the first request is completed.]]></description>
+                </parameter>
+                <parameter name="connectionTimeout">
+                    <description><![CDATA[The timeout for establishing connections to the remote service. This value is qualified by the #connectionTimeoutUnits]]></description>
+                </parameter>
+                <parameter name="connectionTimeoutUnits">
+                    <description><![CDATA[A time unit which qualifies the #connectionTimeout]]></description>
+                </parameter>
+                <parameter name="maxConnections">
+                    <description><![CDATA[The maximum number of outbound connections that will be kept open at the same time. By default the number of connections is unlimited.]]></description>
+                </parameter>
+                <parameter name="connectionIdleTimeout">
+                    <description><![CDATA[A timeout for how long a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled. This value is qualified bY the #connectionIdleTimeoutUnits]]></description>
+                </parameter>
+                <parameter name="connectionIdleTimeoutUnits">
+                    <description><![CDATA[A time unit which qualifies the #connectionIdleTimeoutUnits]]></description>
+                </parameter>
+                <parameter name="proxyConfig">
+                    <description><![CDATA[Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.]]></description>
+                </parameter>
+                <parameter name="authentication">
+                    <description><![CDATA[Authentication method to use for the HTTP request. Not to be used!]]></description>
+                </parameter>
+                <parameter name="tlsContext">
+                    <description><![CDATA[Reference to a TLS config element. This will enable HTTPS for this config.]]></description>
+                </parameter>
+                <parameter name="partnerURL">
+                    <description><![CDATA[Service endpoint URL to the partner.]]></description>
+                </parameter>
+                <parameter name="outboundRequestAuthentication">
+                    <description><![CDATA[Authentication method to use for the HTTP request.]]></description>
+                </parameter>
+                <parameter name="reconnection">
+                    <description><![CDATA[When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy]]></description>
+                </parameter>
+            </parameters>
+        </connection>
+    </connections>
+    <extension name="AS2 Connector">
+        <description><![CDATA[This is the main class of an extension, is the entry point from which configurations, connection providers, operations and sources are going to be declared.]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="sendWithAsyncMdn">
+            <description><![CDATA[Performs the send async request using configuration, client and as2RequesterParameters and completes the callback accordingly.]]></description>
+            <parameters>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="mimeType">
+                    <description><![CDATA[The content type of the Document being sent via AS2 (for example, application/EDI-X12). There are no restrictions on the content-type that are supported.]]></description>
+                </parameter>
+                <parameter name="content">
+                    <description><![CDATA[The content InputStream to be sent.]]></description>
+                </parameter>
+                <parameter name="contentDescription">
+                    <description><![CDATA[Content MIME part content description]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[File name of the content stream. If not set, the content will be transferred without filename.]]></description>
+                </parameter>
+                <parameter name="requestReceipt">
+                    <description><![CDATA[How the connector will behave based on the received receipts. If the value set is NONE, no receipt is expected. " "UNSIGNED, expects the returned receipt to be unsigned. SIGNED_OPTIONAL, could have a signed or non-signed receipt." "SIGNED_REQUIRED expects a signed receipt and the application will fail if this is not the case.]]></description>
+                </parameter>
+                <parameter name="requireProcessed">
+                    <description><![CDATA[Require Processed response in MDN to continue flow (error otherwise)]]></description>
+                </parameter>
+                <parameter name="connectionTimeout">
+                    <description><![CDATA[An override for the timeout for establishing connections to the remote service as milliseconds. The default of 0 means this value will not be used to override the configuration.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="sendWithSyncMdn">
+            <description><![CDATA[Performs the send sync request using configuration, client and as2RequesterParameters and completes the callback accordingly.]]></description>
+            <parameters>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="mimeType">
+                    <description><![CDATA[The content type of the Document being sent via AS2 (for example, application/EDI-X12). There are no restrictions on the content-type that are supported.]]></description>
+                </parameter>
+                <parameter name="content">
+                    <description><![CDATA[The content InputStream to be sent.]]></description>
+                </parameter>
+                <parameter name="contentDescription">
+                    <description><![CDATA[Content MIME part content description]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[File name of the content stream. If not set, the content will be transferred without filename.]]></description>
+                </parameter>
+                <parameter name="requestReceipt">
+                    <description><![CDATA[How the connector will behave based on the received receipts. If the value set is NONE, no receipt is expected. " "UNSIGNED, expects the returned receipt to be unsigned. SIGNED_OPTIONAL, could have a signed or non-signed receipt." "SIGNED_REQUIRED expects a signed receipt and the application will fail if this is not the case.]]></description>
+                </parameter>
+                <parameter name="requireProcessed">
+                    <description><![CDATA[Require Processed response in MDN to continue flow (error otherwise)]]></description>
+                </parameter>
+                <parameter name="connectionTimeout">
+                    <description><![CDATA[An override for the timeout for establishing connections to the remote service as milliseconds. The default of 0 means this value will not be used to override the configuration.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources>
+        <source name="as2-listener">
+            <description><![CDATA[Represents a listener for AS2 sender requests]]></description>
+            <parameters>
+                <parameter name="path">
+                    <description><![CDATA[This path will be appended to any path set in the listener configuration.]]></description>
+                </parameter>
+                <parameter name="connectionTimeout">
+                    <description><![CDATA[An override for the timeout for establishing connections to the remote service as milliseconds. The default of 0 means this value will not be used to override the configuration.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="reconnectionStrategy">
+                    <description><![CDATA[A retry strategy in case of connectivity errors]]></description>
+                </parameter>
+            </parameters>
+        </source>
+        <source name="as2-mdn-listener">
+            <description><![CDATA[Represents a MDN listener for AS2 listener requests]]></description>
+            <parameters>
+                <parameter name="path">
+                    <description><![CDATA[This path will be appended to any path set in the listener configuration.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+            </parameters>
+        </source>
+    </sources>
+    <types>
+        <type name="com.mulesoft.connector.as2.api.AS2BasicAuthentication">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="username">
+                    <description><![CDATA[Username to authenticate.]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[Password of user to authenticate.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connector.as2.api.AS2ListenerAttributes">
+            <description><![CDATA[A attribute group that returns to the sender from source listener
+
+ @since 5.0]]></description>
+            <parameters>
+                <parameter name="as2MessageId">
+                    <description><![CDATA[AS2 unique message ID from receiver to sender]]></description>
+                </parameter>
+                <parameter name="fileName">
+                    <description><![CDATA[Received file name]]></description>
+                </parameter>
+                <parameter name="mimeType">
+                    <description><![CDATA[Mime type, ex. application/xml etc]]></description>
+                </parameter>
+                <parameter name="fromName">
+                    <description><![CDATA[AS2 Receiver name]]></description>
+                </parameter>
+                <parameter name="headers">
+                    <description><![CDATA[AS2 http headers that elaborate the message format]]></description>
+                </parameter>
+                <parameter name="mdnDeliveryStatus">
+                    <description><![CDATA[AS2 message validation status]]></description>
+                </parameter>
+                <parameter name="toName">
+                    <description><![CDATA[AS2 Sender name]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connector.as2.api.AS2MdnAttributes">
+            <description><![CDATA[A attribute group that returns to the sender from mdn listener]]></description>
+            <parameters>
+                <parameter name="as2MessageId">
+                    <description><![CDATA[AS2 unique message ID from receiver to sender]]></description>
+                </parameter>
+                <parameter name="dispositionContent">
+                    <description><![CDATA[AS2 processed MDN report as headers]]></description>
+                </parameter>
+                <parameter name="fromName">
+                    <description><![CDATA[AS2 Receiver name]]></description>
+                </parameter>
+                <parameter name="headers">
+                    <description><![CDATA[AS2 http headers that elaborate the message format]]></description>
+                </parameter>
+                <parameter name="mdnAlg">
+                    <description><![CDATA[AS2 message integrity check algorithm used]]></description>
+                </parameter>
+                <parameter name="mdnMic">
+                    <description><![CDATA[AS2 message integrity check hashcode]]></description>
+                </parameter>
+                <parameter name="mdnProcessed">
+                    <description><![CDATA[AS2 message validation status]]></description>
+                </parameter>
+                <parameter name="originalAS2MessageId">
+                    <description><![CDATA[AS2 Message ID received]]></description>
+                </parameter>
+                <parameter name="reportText">
+                    <description><![CDATA[MDN report text]]></description>
+                </parameter>
+                <parameter name="toName">
+                    <description><![CDATA[AS2 Sender name]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connector.as2.api.AS2SendAttributes">
+            <description><![CDATA[A returned attribute group that contains general mdn information for sender
+
+ @since 5.0]]></description>
+            <parameters>
+                <parameter name="as2MdnAttributes">
+                    <description><![CDATA[AS2 returned MDN attribute group]]></description>
+                </parameter>
+                <parameter name="as2MessageId">
+                    <description><![CDATA[AS2 unique message ID from receiver to sender]]></description>
+                </parameter>
+                <parameter name="fromName">
+                    <description><![CDATA[AS2 receiver name]]></description>
+                </parameter>
+                <parameter name="headers">
+                    <description><![CDATA[AS2 http headers that elaborate the message format]]></description>
+                </parameter>
+                <parameter name="msgMIC">
+                    <description><![CDATA[AS2 message integrity check hashcode]]></description>
+                </parameter>
+                <parameter name="msgMICAlg">
+                    <description><![CDATA[AS2 message integrity check algorithm used]]></description>
+                </parameter>
+                <parameter name="toName">
+                    <description><![CDATA[AS2 sender name]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="com.mulesoft.connector.as2.api.BasicAuthenticationVerifier">
+            <description><![CDATA[API for Authentication on the source.]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.http.api.request.authentication.BasicAuthentication">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="preemptive">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.proxy.DefaultNtlmProxyConfig">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="host">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="nonProxyHosts">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="ntlmDomain">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.proxy.DefaultProxyConfig">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="host">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="port">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="password">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="nonProxyHosts">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.proxy.HttpProxyConfig">
+            <description><![CDATA[]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.http.api.request.validator.FailureStatusCodeValidator">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="values">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.http.api.request.validator.ResponseValidator">
+            <description><![CDATA[]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="values">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

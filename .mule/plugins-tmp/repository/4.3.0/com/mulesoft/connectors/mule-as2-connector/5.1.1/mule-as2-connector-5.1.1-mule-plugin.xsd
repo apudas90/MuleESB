@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/as2-mule4" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/sockets" schemaLocation="http://www.mulesoft.org/schema/mule/sockets/current/mule-sockets.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/http" schemaLocation="http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:complexType name="org.mule.extension.http.api.request.proxy.HttpProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:org.mule.extension.http.api.request.proxy.HttpProxyConfig" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-http-proxy-config"></xs:element>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:org.mule.extension.http.api.request.proxy.HttpProxyConfig" abstract="true" name="abstract-http-proxy-config"></xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.proxy.DefaultProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" base="as2-mule4:org.mule.extension.http.api.request.proxy.HttpProxyConfig">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="host"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="required" name="port"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="nonProxyHosts"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" substitutionGroup="as2-mule4:global-abstract-http-proxy-config" abstract="true" name="abstract-proxy"></xs:element>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" substitutionGroup="as2-mule4:abstract-proxy" name="proxy">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="as2-mule4:org.mule.extension.http.api.request.proxy.DefaultProxyConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.proxy.DefaultNtlmProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" base="as2-mule4:org.mule.extension.http.api.request.proxy.HttpProxyConfig">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="ntlmDomain"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="host"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionInt" use="required" name="port"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="username"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="password"></xs:attribute>
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="optional" name="nonProxyHosts"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" substitutionGroup="as2-mule4:global-abstract-http-proxy-config" abstract="true" name="abstract-ntlm-proxy"></xs:element>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" substitutionGroup="as2-mule4:abstract-ntlm-proxy" name="ntlm-proxy">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="as2-mule4:org.mule.extension.http.api.request.proxy.DefaultNtlmProxyConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connector.as2.api.BasicAuthenticationVerifier">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:com.mulesoft.connector.as2.api.BasicAuthenticationVerifier" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-basic-authentication-verifier"></xs:element>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:com.mulesoft.connector.as2.api.BasicAuthenticationVerifier" abstract="true" name="abstract-basic-authentication-verifier"></xs:element>
+  <xs:complexType name="com.mulesoft.connector.as2.api.AS2BasicAuthentication">
+    <xs:complexContent>
+      <xs:extension xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" base="as2-mule4:com.mulesoft.connector.as2.api.BasicAuthenticationVerifier">
+        <xs:attribute type="xs:string" use="required" name="username"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="password"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:com.mulesoft.connector.as2.api.AS2BasicAuthentication" substitutionGroup="as2-mule4:abstract-basic-authentication-verifier" abstract="true" name="abstract-as2-basic-authentication"></xs:element>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" substitutionGroup="as2-mule4:abstract-as2-basic-authentication" name="as2-basic-authentication">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="as2-mule4:com.mulesoft.connector.as2.api.AS2BasicAuthentication"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.validator.ResponseValidator">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType"></xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:org.mule.extension.http.api.request.validator.ResponseValidator" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="global-abstract-response-validator"></xs:element>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:org.mule.extension.http.api.request.validator.ResponseValidator" abstract="true" name="abstract-response-validator"></xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator">
+    <xs:complexContent>
+      <xs:extension xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" base="as2-mule4:org.mule.extension.http.api.request.validator.ResponseValidator">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="values"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator" substitutionGroup="as2-mule4:abstract-response-validator" abstract="true" name="abstract-success-status-code-validator"></xs:element>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" substitutionGroup="as2-mule4:abstract-success-status-code-validator" name="success-status-code-validator">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="as2-mule4:org.mule.extension.http.api.request.validator.SuccessStatusCodeValidator"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.validator.FailureStatusCodeValidator">
+    <xs:complexContent>
+      <xs:extension xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" base="as2-mule4:org.mule.extension.http.api.request.validator.ResponseValidator">
+        <xs:attribute xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="mule:expressionString" use="required" name="values"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" type="as2-mule4:org.mule.extension.http.api.request.validator.FailureStatusCodeValidator" substitutionGroup="as2-mule4:abstract-response-validator" abstract="true" name="abstract-failure-status-code-validator"></xs:element>
+  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" substitutionGroup="as2-mule4:abstract-failure-status-code-validator" name="failure-status-code-validator">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="as2-mule4:org.mule.extension.http.api.request.validator.FailureStatusCodeValidator"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="listener-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="inbound-request-authentication">
+              <xs:annotation>
+                <xs:documentation>Authentication method to use for verifying the incoming HTTP request.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" minOccurs="1" maxOccurs="1" ref="as2-mule4:abstract-basic-authentication-verifier"></xs:element>
+                  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" minOccurs="1" maxOccurs="1" ref="as2-mule4:global-abstract-basic-authentication-verifier"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="self-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="as2Name">
+                      <xs:annotation>
+                        <xs:documentation>AS2 system identifier (used for AS2-From and AS2-To headers)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="x509Alias">
+                      <xs:annotation>
+                        <xs:documentation>Certificate and/or private key alias in keystore (required if using signing or encryption)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="email">
+                      <xs:annotation>
+                        <xs:documentation>Email address used as HTTP 'From' header when sending</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="partner-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="as2Name">
+                      <xs:annotation>
+                        <xs:documentation>AS2 system identifier (used for AS2-From and AS2-To headers)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="x509Alias">
+                      <xs:annotation>
+                        <xs:documentation>Certificate and/or private key alias in keystore (required if using signing or encryption)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="email">
+                      <xs:annotation>
+                        <xs:documentation>Email address used as HTTP 'From' header when sending</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="key-store-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="keystorePassword">
+                      <xs:annotation>
+                        <xs:documentation>The password of the provided keystore.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="keystorePath">
+                      <xs:annotation>
+                        <xs:documentation>The Absolute or relative path to the keystore containing certificates and private keys for self(this application) and the partner.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="privateKeyPassword">
+                      <xs:annotation>
+                        <xs:documentation>If the private key to be used for signing/encryption is password protected, please give that value here.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="httpListenerConfig">
+            <xs:annotation>
+              <xs:documentation>Reference to global HTTP Listener definition for our service endpoint used by partner for both action and signal messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="async-mdn-connection-provider-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+              <xs:annotation>
+                <xs:documentation>Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" minOccurs="1" maxOccurs="1" ref="as2-mule4:abstract-http-proxy-config"></xs:element>
+                  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" minOccurs="1" maxOccurs="1" ref="as2-mule4:global-abstract-http-proxy-config"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="authentication">
+              <xs:annotation>
+                <xs:documentation>Authentication method to use for the HTTP request. Not to be used!</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" base="as2-mule4:org.mule.extension.http.api.request.authentication.BasicAuthentication"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="usePersistentConnections">
+            <xs:annotation>
+              <xs:documentation>If false, each connection will be closed after the first request is completed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>The timeout for establishing connections to the remote service. This value is qualified by the #connectionTimeoutUnits</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="connectionTimeoutUnits">
+            <xs:annotation>
+              <xs:documentation>A time unit which qualifies the #connectionTimeout</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="maxConnections">
+            <xs:annotation>
+              <xs:documentation>The maximum number of outbound connections that will be kept open at the same time. By default the number of connections is unlimited.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30" name="connectionIdleTimeout">
+            <xs:annotation>
+              <xs:documentation>A timeout for how long a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled. This value is qualified bY the #connectionIdleTimeoutUnits</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MINUTES" name="connectionIdleTimeoutUnits">
+            <xs:annotation>
+              <xs:documentation>A time unit which qualifies the #connectionIdleTimeoutUnits</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="proxyConfig">
+            <xs:annotation>
+              <xs:documentation>Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="authentication">
+            <xs:annotation>
+              <xs:documentation>Authentication method to use for the HTTP request. Not to be used!</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="org.mule.extension.http.api.request.authentication.BasicAuthentication">
+    <xs:annotation>
+      <xs:documentation>Authentication method to use for the HTTP request. Not to be used!</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="mule:expressionString" use="required" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="password"></xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="preemptive"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="As2-listenerType" substitutionGroup="mule:abstract-message-source" name="as2-listener">
+    <xs:annotation>
+      <xs:documentation>Represents a listener for AS2 sender requests</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="As2-listenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="/" name="path">
+          <xs:annotation>
+            <xs:documentation>This path will be appended to any path set in the listener configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="connectionTimeout">
+          <xs:annotation>
+            <xs:documentation>An override for the timeout for establishing connections to the remote service as milliseconds. The default of 0 means this value will not be used to override the configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="mdn-listener-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="self-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="as2Name">
+                      <xs:annotation>
+                        <xs:documentation>AS2 system identifier (used for AS2-From and AS2-To headers)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="x509Alias">
+                      <xs:annotation>
+                        <xs:documentation>Certificate and/or private key alias in keystore (required if using signing or encryption)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="email">
+                      <xs:annotation>
+                        <xs:documentation>Email address used as HTTP 'From' header when sending</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="partner-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="as2Name">
+                      <xs:annotation>
+                        <xs:documentation>AS2 system identifier (used for AS2-From and AS2-To headers)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="x509Alias">
+                      <xs:annotation>
+                        <xs:documentation>Certificate and/or private key alias in keystore (required if using signing or encryption)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="email">
+                      <xs:annotation>
+                        <xs:documentation>Email address used as HTTP 'From' header when sending</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="key-store-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="keystorePassword">
+                      <xs:annotation>
+                        <xs:documentation>The password of the provided keystore.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="keystorePath">
+                      <xs:annotation>
+                        <xs:documentation>The Absolute or relative path to the keystore containing certificates and private keys for self(this application) and the partner.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="privateKeyPassword">
+                      <xs:annotation>
+                        <xs:documentation>If the private key to be used for signing/encryption is password protected, please give that value here.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="httpListenerConfig">
+            <xs:annotation>
+              <xs:documentation>Reference to global HTTP Listener definition for our service endpoint used by partner for both action and signal messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="As2-mdn-listenerType" substitutionGroup="mule:abstract-message-source" name="as2-mdn-listener">
+    <xs:annotation>
+      <xs:documentation>Represents a MDN listener for AS2 listener requests</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="As2-mdn-listenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="/" name="path">
+          <xs:annotation>
+            <xs:documentation>This path will be appended to any path set in the listener configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableBoolean" use="optional" name="primaryNodeOnly">
+          <xs:annotation>
+            <xs:documentation>Whether this source should only be executed on the primary node when runnning in Cluster</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="send-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>This class represents an extension configuration, values set in this class are commonly used across multiple operations since they represent something core from the extension.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="self-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="as2Name">
+                      <xs:annotation>
+                        <xs:documentation>AS2 system identifier (used for AS2-From and AS2-To headers)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="x509Alias">
+                      <xs:annotation>
+                        <xs:documentation>Certificate and/or private key alias in keystore (required if using signing or encryption)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="email">
+                      <xs:annotation>
+                        <xs:documentation>Email address used as HTTP 'From' header when sending</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="partner-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="as2Name">
+                      <xs:annotation>
+                        <xs:documentation>AS2 system identifier (used for AS2-From and AS2-To headers)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="x509Alias">
+                      <xs:annotation>
+                        <xs:documentation>Certificate and/or private key alias in keystore (required if using signing or encryption)</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="email">
+                      <xs:annotation>
+                        <xs:documentation>Email address used as HTTP 'From' header when sending</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="requester-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="optional" name="subject">
+                      <xs:annotation>
+                        <xs:documentation>Free form text for MIME Subject header</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="com.mulesoft.connector.as2.api.HashAlgorithmEnumType" use="optional" default="UNSIGNED" name="micAlg">
+                      <xs:annotation>
+                        <xs:documentation>The algorithm to be used when setting the message integrity check value</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="com.mulesoft.connector.as2.api.HashAlgorithmEnumType" use="optional" default="UNSIGNED" name="mdnMicAlg">
+                      <xs:annotation>
+                        <xs:documentation>Request partner to respond with a signed MDN using this algorithm for calculating MIC</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="com.mulesoft.connector.as2.api.EncryptionAlgorithmEnumType" use="optional" default="UNENCRYPTED" name="encryptionAlg">
+                      <xs:annotation>
+                        <xs:documentation>The Algorithm to be used when encrypting the message to be sent</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="com.mulesoft.connector.as2.api.EncodingTypeEnumType" use="optional" default="BINARY" name="contentTransferEncoding">
+                      <xs:annotation>
+                        <xs:documentation>The encoding to be used on the content of AS2 message being sent</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="com.mulesoft.connector.as2.api.RequestReceiptEnumType" use="optional" default="UNSIGNED" name="requestReceipt">
+                      <xs:annotation>
+                        <xs:documentation>How the connector will behave based on the received receipts</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="com.mulesoft.connector.as2.api.AS2CompressionEnumType" use="optional" default="NONE" name="compressionType">
+                      <xs:annotation>
+                        <xs:documentation>The Compression type to be used</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="receiptDeliveryURL">
+                      <xs:annotation>
+                        <xs:documentation>The Asynchronous MDN delivery address which the mdn will be returned to. This should be the fully formed URL to the Async MDN Listener (AS2 Source Component). Ex: https://example.com/mdn It is only required if "Send With Async MDN" is used.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="keystore-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute type="mule:expressionString" use="required" name="keystorePassword">
+                      <xs:annotation>
+                        <xs:documentation>The password of the provided keystore.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="required" name="keystorePath">
+                      <xs:annotation>
+                        <xs:documentation>The Absolute or relative path to the keystore containing certificates and private keys for self(this application) and the partner.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute type="mule:expressionString" use="optional" name="privateKeyPassword">
+                      <xs:annotation>
+                        <xs:documentation>If the private key to be used for signing/encryption is password protected, please give that value here.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+              <xs:annotation>
+                <xs:documentation>Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" minOccurs="1" maxOccurs="1" ref="as2-mule4:abstract-http-proxy-config"></xs:element>
+                  <xs:element xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" minOccurs="1" maxOccurs="1" ref="as2-mule4:global-abstract-http-proxy-config"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="authentication">
+              <xs:annotation>
+                <xs:documentation>Authentication method to use for the HTTP request. Not to be used!</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" base="as2-mule4:org.mule.extension.http.api.request.authentication.BasicAuthentication"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="outbound-request-authentication">
+              <xs:annotation>
+                <xs:documentation>Authentication method to use for the HTTP request.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:abstract-http-request-authentication"></xs:element>
+                  <xs:element xmlns:http="http://www.mulesoft.org/schema/mule/http" minOccurs="1" maxOccurs="1" ref="http:global-abstract-http-request-authentication"></xs:element>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="usePersistentConnections">
+            <xs:annotation>
+              <xs:documentation>If false, each connection will be closed after the first request is completed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30" name="connectionTimeout">
+            <xs:annotation>
+              <xs:documentation>The timeout for establishing connections to the remote service. This value is qualified by the #connectionTimeoutUnits</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="connectionTimeoutUnits">
+            <xs:annotation>
+              <xs:documentation>A time unit which qualifies the #connectionTimeout</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="maxConnections">
+            <xs:annotation>
+              <xs:documentation>The maximum number of outbound connections that will be kept open at the same time. By default the number of connections is unlimited.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30" name="connectionIdleTimeout">
+            <xs:annotation>
+              <xs:documentation>A timeout for how long a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled. This value is qualified bY the #connectionIdleTimeoutUnits</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="MINUTES" name="connectionIdleTimeoutUnits">
+            <xs:annotation>
+              <xs:documentation>A time unit which qualifies the #connectionIdleTimeoutUnits</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="proxyConfig">
+            <xs:annotation>
+              <xs:documentation>Reusable configuration element for outbound connections through a proxy. A proxy element must define a host name and a port attributes, and optionally can define a username and a password.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="authentication">
+            <xs:annotation>
+              <xs:documentation>Authentication method to use for the HTTP request. Not to be used!</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="partnerURL">
+            <xs:annotation>
+              <xs:documentation>Service endpoint URL to the partner.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="outboundRequestAuthentication">
+            <xs:annotation>
+              <xs:documentation>Authentication method to use for the HTTP request.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SendWithAsyncMdnType" substitutionGroup="mule:abstract-operator" name="send-with-async-mdn">
+    <xs:annotation>
+      <xs:documentation>Performs the send async request using configuration, client and as2RequesterParameters and completes the callback accordingly.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="SendWithAsyncMdnType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>The content InputStream to be sent.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="mimeType">
+          <xs:annotation>
+            <xs:documentation>The content type of the Document being sent via AS2 (for example, application/EDI-X12). There are no restrictions on the content-type that are supported.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="contentDescription">
+          <xs:annotation>
+            <xs:documentation>Content MIME part content description</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="fileName">
+          <xs:annotation>
+            <xs:documentation>File name of the content stream. If not set, the content will be transferred without filename.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="com.mulesoft.connector.as2.api.RequestReceiptEnumType" use="optional" name="requestReceipt">
+          <xs:annotation>
+            <xs:documentation>How the connector will behave based on the received receipts. If the value set is NONE, no receipt is expected. " "UNSIGNED, expects the returned receipt to be unsigned. SIGNED_OPTIONAL, could have a signed or non-signed receipt." "SIGNED_REQUIRED expects a signed receipt and the application will fail if this is not the case.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="requireProcessed">
+          <xs:annotation>
+            <xs:documentation>Require Processed response in MDN to continue flow (error otherwise)</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="connectionTimeout">
+          <xs:annotation>
+            <xs:documentation>An override for the timeout for establishing connections to the remote service as milliseconds. The default of 0 means this value will not be used to override the configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="SendWithSyncMdnType" substitutionGroup="mule:abstract-operator" name="send-with-sync-mdn">
+    <xs:annotation>
+      <xs:documentation>Performs the send sync request using configuration, client and as2RequesterParameters and completes the callback accordingly.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="SendWithSyncMdnType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="content">
+            <xs:annotation>
+              <xs:documentation>The content InputStream to be sent.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputEncoding">
+          <xs:annotation>
+            <xs:documentation>The encoding of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="mimeType">
+          <xs:annotation>
+            <xs:documentation>The content type of the Document being sent via AS2 (for example, application/EDI-X12). There are no restrictions on the content-type that are supported.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="contentDescription">
+          <xs:annotation>
+            <xs:documentation>Content MIME part content description</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="fileName">
+          <xs:annotation>
+            <xs:documentation>File name of the content stream. If not set, the content will be transferred without filename.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/as2-mule4" type="com.mulesoft.connector.as2.api.RequestReceiptEnumType" use="optional" name="requestReceipt">
+          <xs:annotation>
+            <xs:documentation>How the connector will behave based on the received receipts. If the value set is NONE, no receipt is expected. " "UNSIGNED, expects the returned receipt to be unsigned. SIGNED_OPTIONAL, could have a signed or non-signed receipt." "SIGNED_REQUIRED expects a signed receipt and the application will fail if this is not the case.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionBoolean" use="optional" default="true" name="requireProcessed">
+          <xs:annotation>
+            <xs:documentation>Require Processed response in MDN to continue flow (error otherwise)</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="optional" default="0" name="connectionTimeout">
+          <xs:annotation>
+            <xs:documentation>An override for the timeout for establishing connections to the remote service as milliseconds. The default of 0 means this value will not be used to override the configuration.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connector.as2.api.HashAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MD5"></xs:enumeration>
+          <xs:enumeration value="SHA1"></xs:enumeration>
+          <xs:enumeration value="SHA224"></xs:enumeration>
+          <xs:enumeration value="SHA256"></xs:enumeration>
+          <xs:enumeration value="SHA384"></xs:enumeration>
+          <xs:enumeration value="SHA512"></xs:enumeration>
+          <xs:enumeration value="UNSIGNED"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connector.as2.api.EncryptionAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DES"></xs:enumeration>
+          <xs:enumeration value="DES_EDE3"></xs:enumeration>
+          <xs:enumeration value="RC2"></xs:enumeration>
+          <xs:enumeration value="AES128_CBC"></xs:enumeration>
+          <xs:enumeration value="AES192_CBC"></xs:enumeration>
+          <xs:enumeration value="AES256_CBC"></xs:enumeration>
+          <xs:enumeration value="AES128_CCM"></xs:enumeration>
+          <xs:enumeration value="AES192_CCM"></xs:enumeration>
+          <xs:enumeration value="AES256_CCM"></xs:enumeration>
+          <xs:enumeration value="AES128_GCM"></xs:enumeration>
+          <xs:enumeration value="AES192_GCM"></xs:enumeration>
+          <xs:enumeration value="AES256_GCM"></xs:enumeration>
+          <xs:enumeration value="AES256_WRAP"></xs:enumeration>
+          <xs:enumeration value="CAST5"></xs:enumeration>
+          <xs:enumeration value="UNENCRYPTED"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connector.as2.api.EncodingTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="BASE64"></xs:enumeration>
+          <xs:enumeration value="QUOTED_PRINTABLE"></xs:enumeration>
+          <xs:enumeration value="SEVEN_BIT"></xs:enumeration>
+          <xs:enumeration value="EIGHT_BIT"></xs:enumeration>
+          <xs:enumeration value="BINARY"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connector.as2.api.RequestReceiptEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NONE"></xs:enumeration>
+          <xs:enumeration value="UNSIGNED"></xs:enumeration>
+          <xs:enumeration value="SIGNED_OPTIONAL"></xs:enumeration>
+          <xs:enumeration value="SIGNED_REQUIRED"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connector.as2.api.AS2CompressionEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NONE"></xs:enumeration>
+          <xs:enumeration value="ZLIB"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>
