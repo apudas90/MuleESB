@@ -1,0 +1,26 @@
+{
+  "configs": [
+    "as2-connection.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:as2-connection:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.2-hf2",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "as2-connection.xml",
+        "log4j2.xml",
+        "receiver-keystore.jks",
+        "sender-keystore.jks"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:as2-mule4="http://www.mulesoft.org/schema/mule/as2-mule4" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/as2-mule4 http://www.mulesoft.org/schema/mule/as2-mule4/current/mule-as2-mule4.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="0436007d-dc7f-4873-9fa6-2f3388369ec7" >
+		<http:listener-connection host="localhost" port="8090" />
+	</http:listener-config>
+	<as2-mule4:send-config name="AS2_Connector_Send_config" doc:name="AS2 Connector Send config" doc:id="e4899244-cd54-4144-a193-83fe0bf35e3d" >
+		<as2-mule4:connection partnerURL="http://localhost:8005/as2Listener" />
+		<as2-mule4:self-config as2Name="AS2Self" x509Alias="mule-sender" email="as2self@gmail.com" />
+		<as2-mule4:partner-config as2Name="AS2Partner" x509Alias="mule-receiver-public" email="as2partner@gmail.com" />
+		<as2-mule4:requester-config micAlg="SHA1" mdnMicAlg="SHA1" encryptionAlg="AES256_CBC" compressionType="ZLIB" />
+		<as2-mule4:keystore-config keystorePassword="mulesoft" keystorePath="sender-keystore.jks" privateKeyPassword="mulesoft" />
+	</as2-mule4:send-config>
+	<as2-mule4:listener-config name="AS2_Connector_Listener_config" doc:name="AS2 Connector Listener config" doc:id="e3b1fd4f-8195-475a-955e-ba49051271dd" httpListenerConfig="HTTP_Listener_config">
+		<as2-mule4:self-config as2Name="AS2Partner" x509Alias="mule-receiver" email="as2partner@gmail.com" />
+		<as2-mule4:partner-config as2Name="AS2Self" x509Alias="mule-sender-public" email="as2self@gmail.com" />
+		<as2-mule4:key-store-config keystorePassword="mulesoft" keystorePath="receiver-keystore.jks" privateKeyPassword="mulesoft" />
+	</as2-mule4:listener-config>
+	<flow name="as2-listener-flow" doc:id="a2343867-4f96-4cb7-a6bc-0f7c8e74267e" >
+		<as2-mule4:as2-listener doc:name="As 2 listener" doc:id="eb7215a4-4100-4889-b4d0-3ae07c79aa40" />
+	</flow>
+	<flow name="as2-connectionFlow" doc:id="ecde51a1-a8d0-40be-a092-f0c675a8a22a" >
+		<http:listener doc:name="Listener" doc:id="9b41badf-0af1-4bfa-a254-e13a4045e31a" config-ref="HTTP_Listener_config" path="/as2"/>
+		<as2-mule4:send-with-sync-mdn doc:name="Send with Sync MDN" doc:id="5662c36c-2f09-4ea9-b1b2-6cf29e15037e" config-ref="AS2_Connector_Send_config"/>
+	</flow>
+</mule>
