@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c385ab72-6cea-4462-aabd-a2bcf20f08fc" >
 		<http:listener-connection host="localhost" port="8087" />
 	</http:listener-config>
 	<flow name="splitter-aggregrator-apiFlow" doc:id="386198f0-6d43-44cd-a1f3-f14da5e3f98b" >
 		<http:listener doc:name="Listener" doc:id="9a2fd0dc-fdd6-40bc-8722-8967ae684c6e" config-ref="HTTP_Listener_config" path="/splitter"/>
-		<foreach doc:name="For Each" doc:id="168c7422-6b80-40fe-bf2d-2501355a0007">
+		<ee:transform doc:name="Transform Message" doc:id="768ccf7a-bab7-49b7-93ce-1e77aa5e6521" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	result:payload
+}
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<foreach doc:name="For Each" doc:id="168c7422-6b80-40fe-bf2d-2501355a0007" collection="#[dw::core::Objects::entrySet(payload.'result')]">
+			<ee:transform doc:name="Transform Message" doc:id="c2a1b0b1-4abc-4d54-90aa-0cb07abe8f97" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
 			<logger level="INFO" doc:name="Logger" doc:id="2dcbb971-7c64-493a-965f-253984288da2" message="#[payload]"/>
 		</foreach>
 	</flow>

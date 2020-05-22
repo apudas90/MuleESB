@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c2b5fcaf-5c7b-4a14-a180-fb87da422053" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	
+	<configuration-properties file="config.properties"/>
+
+	<flow name="okta-api-demoFlow" doc:id="154d1fa7-0261-4881-91f1-2577218a053c" >
+		<http:listener doc:name="Listener" doc:id="f26d78ef-e568-47fc-9fc0-c493e8118760" config-ref="HTTP_Listener_config" path="/okta"/>
+		<set-payload value='{"Message": "Called successfully"}' doc:name="Set Payload" doc:id="0eb74bbd-0eca-4a5a-a70f-6ec12c5982e2" />
+	</flow>
+</mule>
