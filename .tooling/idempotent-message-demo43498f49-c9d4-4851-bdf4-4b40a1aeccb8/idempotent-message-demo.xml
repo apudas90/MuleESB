@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ae451450-6373-4aa3-8165-767e7b3e10e6" >
+		<http:listener-connection host="localhost" port="8083" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="8c0a1da6-5d96-499e-a395-4de996cf24ad" />
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="986d13dc-9703-4a15-8c8b-697d613864b4" >
+		<http:listener-connection host="localhost" port="8089" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config2" doc:name="HTTP Listener config" doc:id="86f732f0-6d8f-401e-b2df-5cd33cf9e065" >
+		<http:listener-connection host="localhost" port="8089" />
+	</http:listener-config>
+	<flow name="idempotent-message-demoFlow" doc:id="eb73152c-3639-44fb-927f-5f6b618ccd1f" >
+		<http:listener doc:name="Listener" doc:id="7d562e13-6bf1-437a-a417-150a856b1006" />
+		<ee:transform doc:name="Transform Message" doc:id="d7cec3c9-aff5-4e71-8bf6-895368a6ad18" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-variable value="#[payload.ID]" doc:name="Set Variable" doc:id="30db5c37-ae99-47c9-ad6d-058a16063e75" variableName="idVars"/>
+		<logger level="INFO" doc:name="Logger" doc:id="81893327-f094-4925-86f2-ee4479bd44f1" message="#[vars.idVars]"/>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f1b83a24-3ca5-44e1-8e02-2e8d7446300f" >
+				<set-payload value="Duplicate" doc:name="Set Payload" doc:id="38422233-5b05-4813-aa88-63ff61eac666" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
