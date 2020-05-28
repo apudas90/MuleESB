@@ -1,0 +1,26 @@
+{
+  "configs": [
+    "https-listener-demo.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:https-listener-demo:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.2-hf2",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "Configuration.properties",
+        "https-listener-demo.xml",
+        "keystore.jks",
+        "log4j2.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

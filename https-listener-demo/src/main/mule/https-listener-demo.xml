@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="724d21fb-688e-45d4-bb60-6b1ec41b6e71" >
+		<http:listener-connection protocol="HTTPS" host="0.0.0.0" port="${https.port}" >
+			<tls:context >
+				<tls:key-store type="jks" path="keystore.jks" alias="mule" keyPassword="mulesoft" password="mulesoft" />
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="1f18c1e9-6953-4d38-9c46-e7b1b32879fe" file="Configuration.properties" />
+	<flow name="https-listener-demoFlow" doc:id="743917bf-2916-49aa-a531-eb3eb5207c95" >
+		<http:listener doc:name="Listener" doc:id="a26c5a0b-4321-4e03-bcfb-459b07630667" config-ref="HTTP_Listener_config" path="/secure"/>
+		<set-payload value='{"Message": "Successful Call"}' doc:name="Set Payload" doc:id="bcea051b-3f4a-41ce-b74b-3cfbd9251a3d" />
+	</flow>
+</mule>
