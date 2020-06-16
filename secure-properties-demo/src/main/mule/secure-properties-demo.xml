@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="5d448c40-1add-4915-8c92-548894a5e4a9" file="config.properties" key="mulesoft" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="719b71c0-3272-4855-b183-43d41199a2a4" >
+		<http:listener-connection host="0.0.0.0" port="${secure::http.port}" />
+	</http:listener-config>
+	<flow name="secure-properties-demoFlow" doc:id="24b10dc7-b5b5-4d7b-a4a3-925c7307a8b3" >
+		<http:listener doc:name="Listener" doc:id="945ed03a-085e-4b97-90ac-82fcf320a930" config-ref="HTTP_Listener_config" path="/secure"/>
+		<set-payload value="#[p('secure::message')]" doc:name="Set Payload" doc:id="03ecf732-4ee1-4ae9-a542-9a42cdf5dec0" />
+	</flow>
+</mule>
