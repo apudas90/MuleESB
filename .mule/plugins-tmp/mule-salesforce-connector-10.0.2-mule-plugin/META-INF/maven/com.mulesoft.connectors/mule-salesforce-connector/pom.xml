@@ -20,7 +20,7 @@
         <munit.extensions.maven.plugin.version>1.0.0</munit.extensions.maven.plugin.version>
         <munit.version>2.2.4</munit.version>
         <mtf-tools.version>1.0.0</mtf-tools.version>
-        <gson.version>2.8.5</gson.version>
+        <gson.version>2.8.9</gson.version>
         <!-- runtime version to run -->
         <runtimeVersion>4.2.0</runtimeVersion>
         <runtimeProduct>MULE_EE</runtimeProduct>
